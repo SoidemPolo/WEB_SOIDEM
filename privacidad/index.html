@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Política de Privacidad | SOIDEM Data Technologies</title>
+<meta content="Política de privacidad, condiciones de uso y política de cookies de SOIDEM Data Technologies, conforme al RGPD y la LSSI-CE." name="description"/>
+<link rel="canonical" href="https://www.soidemdt.com/privacidad/"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<meta name="theme-color" content="#191C1E"/>
+<style>
+:root{
+  --paper:#FAF9F6; --ink:#191C1E; --stone:#6B7276; --stone-2:#736E5F; --hair:#E5E2DA;
+  --teal:#1E798D; --teal-d:#155D6E; --deep:#0C3540;
+  --maxw:1180px; --alt:#F2F0EA; --mute:#6B7276; --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Inter,Helvetica,sans-serif;
+  background:var(--paper);color:var(--ink);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;color:inherit;background:none;border:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+h1,h2,h3{font-weight:650;letter-spacing:-.024em;line-height:1.15}
+section{padding:76px 0}
+.kicker{font-size:12.5px;font-weight:650;letter-spacing:.15em;text-transform:uppercase;color:var(--stone);margin-bottom:16px}
+h2{font-size:clamp(30px,4vw,46px);max-width:24ch}
+.lead{font-size:clamp(17px,1.4vw,19px);color:var(--stone);max-width:64ch;margin-top:16px}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2.5px solid var(--teal);outline-offset:3px;border-radius:4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:#fff;font-size:16.5px;font-weight:600;padding:15px 30px;border-radius:8px;transition:background .2s,transform .2s}
+.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--ink);border:1.5px solid #C9C5BB}
+.btn-g:hover{background:transparent;border-color:var(--ink)}
+.tlink{color:var(--teal);font-weight:600;font-size:16px;display:inline-flex;align-items:center;gap:5px}
+.tlink::after{content:"\2192";transition:transform .2s}
+.tlink:hover::after{transform:translateX(4px)}
+
+header{position:sticky;top:0;z-index:50;background:rgba(250,249,246,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--hair)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.brand{display:flex;flex-direction:column;line-height:1.15}
+.brand b{font-size:18px;font-weight:750;letter-spacing:-.01em}
+.brand span{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--stone)}
+.nav ul{display:flex;gap:30px;list-style:none;align-items:center}
+.nav ul a{font-size:15px;color:#3d4347;font-weight:500}
+.nav ul a:hover{color:var(--teal)}
+.nav .cta{background:var(--teal);color:#fff;padding:10px 20px;border-radius:8px;font-weight:600}
+.nav .cta:hover{background:var(--teal-d);color:#fff}
+.burger{display:none;padding:8px}
+.burger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0}
+
+footer.site{padding:50px 0 36px;font-size:14px;color:var(--stone);border-top:1px solid var(--hair);background:#fff}
+.foot{display:flex;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.foot .desc{max-width:32ch;margin-top:10px}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.foot a:hover{color:var(--ink)}
+.foot h4{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone-2);margin-bottom:12px;font-weight:650}
+.foot-b{margin-top:42px;padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--stone-2)}
+
+.skip-link{position:absolute;left:-9999px;top:auto;z-index:100;background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-weight:600;font-size:15px}
+.skip-link:focus{left:16px;top:16px}
+
+@media(max-width:760px){
+  .nav ul{position:fixed;inset:64px 0 auto 0;background:var(--paper);flex-direction:column;padding:26px;display:none;border-bottom:1px solid var(--hair);z-index:60;align-items:flex-start}
+  .nav ul.open{display:flex}
+  .burger{display:block}
+  .btn{width:100%;justify-content:center}
+  section{padding:56px 0}
+}
+
+
+.legal-wrap{padding-top:56px;padding-bottom:96px}
+.legal-body{max-width:760px;margin-top:36px}
+.legal-body h3{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-d);margin:32px 0 10px;font-weight:750}
+.legal-body h3:first-child{margin-top:0}
+.legal-body p{font-size:15.5px;line-height:1.65;color:#3d4347;margin-bottom:12px}
+.legal-body ul{margin:0 0 12px 20px;color:#3d4347;font-size:15.5px;line-height:1.65}
+.legal-body a{color:var(--teal);font-weight:600}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Saltar al contenido</a>
+<header>
+<div class="nav">
+<a aria-label="SOIDEM Data Technologies, inicio" class="brand" href="/">
+<b>SOIDEM</b><span>Data Technologies</span>
+</a>
+<nav aria-label="Principal"><ul id="menu">
+<li><a href="/#que-resolvemos">Qué resolvemos</a></li>
+<li><a href="/#productos">Productos</a></li>
+<li><a href="/#caso">Casos</a></li>
+<li><a href="/#calidad">Calidad</a></li>
+<li><a class="cta" href="/contacto/">Cuéntanos el problema</a></li>
+</ul></nav>
+<button aria-expanded="false" aria-label="Abrir menú" class="burger" id="bg"><span></span><span></span><span></span></button>
+</div>
+</header>
+<main id="main-content">
+<section class="legal-wrap">
+<div class="wrap">
+<p class="kicker">Legal</p>
+<h2>Política de Privacidad</h2>
+<div class="legal-body">
+
+<h3>Datos generales</h3>
+<p>De acuerdo con el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico, ponemos a tu disposición los siguientes datos:</p>
+<p>SOIDEM DATA TECHNOLOGIES tiene su domicilio en Calle Puigsacalm, 8, H, 4-1, 08227, Terrassa (Barcelona), España, con CIF B16979106. Inscrita en el Registro Mercantil de Barcelona, en la hoja B-569361.</p>
+<p>En el sitio web <a href="https://www.soidemdt.com">www.soidemdt.com</a> se ofrece información sobre SOIDEM DATA TECHNOLOGIES, con el objetivo principal de dar a conocer a clientes y público en general la empresa, sus servicios y soluciones.</p>
+
+<h3>Política de privacidad</h3>
+<p>En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, y de la normativa vigente en materia de protección de datos, te informamos de que el responsable del tratamiento de tus datos es SOIDEM DATA TECHNOLOGIES, con domicilio en Calle Puigsacalm, 8, H, 4-1, 08227, Terrassa (Barcelona).</p>
+
+<h3>1. Finalidades</h3>
+<p>SOIDEM DATA TECHNOLOGIES te informa de que tratamos los datos personales facilitados para gestionar relaciones contractuales, y ofrecer a las personas interesadas y clientes de SOIDEM información sobre actividades, productos y servicios relacionados con la empresa, en concreto:</p>
+<ul>
+<li>Ofrecer información sobre nuestras soluciones y servicios.</li>
+<li>Responder a tus consultas y solicitudes.</li>
+<li>Invitaciones a eventos y envío de promociones.</li>
+</ul>
+<p>Las comunicaciones sobre actividades, productos y servicios podrán realizarse por cualquier medio, incluidos los electrónicos. El interesado autoriza el envío de comunicaciones comerciales al aceptar el registro en cualquiera de los formularios de solicitud de datos incluidos en nuestro sitio web.</p>
+
+<h3>2. Datos tratados</h3>
+<p>Los datos tratados por SOIDEM DATA TECHNOLOGIES, en el marco de la relación con el interesado y condicionados a las finalidades consentidas, incluyen: nombre, apellidos, teléfono y correo electrónico de trabajo, y nombre de la empresa.</p>
+
+<h3>3. Conservación de los datos</h3>
+<p>Los datos personales facilitados se conservarán mientras sean necesarios para responder a la relación contractual, a las solicitudes realizadas, y en todo caso mientras no se solicite su supresión por parte del interesado, así como durante el tiempo necesario para cumplir las obligaciones legales que correspondan según cada tipo de dato.</p>
+
+<h3>4. Destinatarios de los datos</h3>
+<p>Los datos del interesado podrán comunicarse a otras empresas de nuestro grupo y a los proveedores que contratamos para tratar datos en nuestro nombre, exclusivamente para las finalidades indicadas. También podrán cederse en los casos en que exista obligación legal.</p>
+
+<h3>5. Legitimación</h3>
+<p>La base legal para gestionar la relación con el cliente y otros interesados, y para ofrecer información sobre actividades, productos y servicios relacionados con SOIDEM DATA TECHNOLOGIES, puede ser la ejecución de un contrato, o el consentimiento inequívoco del interesado en caso de no existir una relación contractual previa.</p>
+
+<h3>6. Derechos del interesado</h3>
+<p>Cualquier persona tiene derecho a obtener confirmación sobre si SOIDEM DATA TECHNOLOGIES trata o no datos personales que le conciernan. Las personas interesadas y clientes tienen derecho a acceder a sus datos personales, así como a solicitar la rectificación de datos inexactos o, en su caso, su supresión cuando, entre otros motivos, los datos ya no sean necesarios para los fines para los que fueron recogidos.</p>
+<p>En determinadas circunstancias, los clientes o interesados podrán oponerse al tratamiento de sus datos. SOIDEM DATA TECHNOLOGIES dejará de tratarlos, salvo por motivos legítimos imperiosos o el ejercicio o defensa de posibles reclamaciones.</p>
+<p>En determinadas circunstancias, los clientes o interesados podrán solicitar la limitación del tratamiento, de modo que SOIDEM DATA TECHNOLOGIES únicamente los conserve y utilice en los casos autorizados por la ley.</p>
+<p>Cuando los datos se recojan en un formato estructurado, los clientes o interesados podrán solicitar a SOIDEM DATA TECHNOLOGIES la transmisión directa de sus datos a otro responsable, o recibirlos en formato electrónico para almacenarlos en sus propios dispositivos, sin necesidad de transmitirlos a otro responsable.</p>
+<p>El interesado puede ejercer estos derechos enviando un correo electrónico a <a href="mailto:info@soidemdt.com">info@soidemdt.com</a>, adjuntando una fotocopia del DNI o documento de identificación equivalente e indicando claramente el derecho que desea ejercer. También puede realizar la solicitud por correo postal a la dirección indicada anteriormente.</p>
+<p>Por último, te informamos de que puedes presentar una reclamación relacionada con el tratamiento de tus datos personales ante la Autoridad de Control (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
+
+<h3>Condiciones de uso</h3>
+<p>Las condiciones de acceso y uso de este sitio web se rigen por la legislación vigente y por el principio de buena fe, comprometiéndose el usuario a hacer un buen uso del sitio web. No se permiten conductas que vayan contra la ley, los derechos o los intereses de terceros.</p>
+<p>Ser usuario del sitio web <a href="https://www.soidemdt.com">www.soidemdt.com</a> implica que reconoces haber leído y aceptado estas condiciones, así como lo dispuesto por la normativa legal aplicable en la materia. Si por cualquier motivo no estás de acuerdo con estas condiciones, no continúes utilizando este sitio web. Cualquier tipo de notificación y/o reclamación solo será válida mediante notificación escrita y/o correo certificado.</p>
+
+<h3>Responsabilidades</h3>
+<p>SOIDEM DATA TECHNOLOGIES no se hace responsable de la información y los contenidos almacenados en foros, redes sociales o cualquier otro medio que permita a terceros publicar contenido de forma independiente en el sitio web del proveedor.</p>
+<p>No obstante, teniendo en cuenta los arts. 11 y 16 de la LSSI-CE, SOIDEM DATA TECHNOLOGIES se compromete a retirar o, en su caso, bloquear aquellos contenidos que pudieran afectar o contravenir la legislación nacional o internacional, los derechos de terceros o la moral y el orden público.</p>
+<p>Tampoco será responsable la empresa de los daños causados por fallos o configuraciones incorrectas del software instalado en el equipo del usuario de internet. Queda excluida cualquier responsabilidad por incidencias técnicas o fallos que se produzcan al conectarse a internet. Asimismo, no se garantiza la ausencia de interrupciones o errores en el acceso al sitio web.</p>
+<p>Asimismo, SOIDEM DATA TECHNOLOGIES se reserva el derecho a actualizar, modificar o eliminar la información contenida en su sitio web, así como su configuración o presentación, en cualquier momento, sin asumir ninguna responsabilidad por ello.</p>
+
+<h3>Propiedad intelectual e industrial</h3>
+<p>SOIDEM DATA TECHNOLOGIES es titular de todos los derechos sobre el software de esta publicación digital, así como de los derechos de propiedad industrial e intelectual referentes a los contenidos que se incluyen, a excepción de los derechos sobre productos y servicios de carácter público que no sean propiedad de esta empresa.</p>
+<p>Ningún material publicado en este sitio web podrá reproducirse, copiarse o publicarse sin el consentimiento por escrito de SOIDEM DATA TECHNOLOGIES.</p>
+<p>Toda la información recibida a través de la web, como comentarios, sugerencias o ideas, se considerará cedida a SOIDEM DATA TECHNOLOGIES de forma gratuita. No debe enviarse ninguna información que no pueda ser tratada de este modo.</p>
+<p>Todos los productos y servicios de estas páginas que NO son propiedad de SOIDEM DATA TECHNOLOGIES son marcas registradas de sus respectivos propietarios, y se reconocen como tales por nuestra empresa. Únicamente aparecen en el sitio web de SOIDEM DATA TECHNOLOGIES con fines de promoción y de recopilación de información. Estos propietarios pueden solicitar la modificación o eliminación de la información que les pertenece.</p>
+
+<h3>Ley aplicable y jurisdicción</h3>
+<p>Estas condiciones generales se rigen por la ley española. Para cualquier controversia que pueda surgir en relación con el sitio web o la actividad que en él se desarrolla, serán competentes los Juzgados y Tribunales de Madrid (España), renunciando expresamente el usuario a cualquier otro fuero que pudiera corresponderle.</p>
+
+<h3>Política de cookies</h3>
+<p>SOIDEM DATA TECHNOLOGIES, por cuenta propia o de un tercero contratado para prestar servicios de medición, puede utilizar cookies cuando el usuario navega por el sitio web. Las cookies son archivos enviados al navegador a través de un servicio web con el fin de registrar las actividades del usuario durante su tiempo de navegación.</p>
+<p>Las cookies utilizadas se asocian únicamente a un usuario anónimo y a su ordenador, y no proporcionan por sí mismas los datos personales del usuario.</p>
+<p>Mediante el uso de cookies resulta posible que el servidor donde se encuentra el sitio web reconozca el navegador utilizado por el usuario con el fin de facilitar la navegación. También se utilizan para medir la audiencia y los parámetros de tráfico, controlar el proceso y el número de entradas.</p>
+<p>El usuario tiene la posibilidad de configurar su navegador para ser avisado de la recepción de cookies y para impedir su instalación en su equipo. Consulta las instrucciones y manuales de tu navegador para más información.</p>
+<p>Para utilizar el sitio web no es necesario que el usuario permita la instalación de las cookies enviadas por el sitio web, o por el tercero que actúe en su nombre, sin perjuicio de que sea necesario que el usuario inicie sesión en cada uno de los servicios cuya prestación requiera un registro previo.</p>
+<p>En cualquier caso, las cookies tienen carácter temporal, con la única finalidad de hacer más eficaz su transmisión posterior. En ningún caso se utilizarán las cookies para recoger información de carácter personal.</p>
+
+</div>
+</div>
+</section>
+</main>
+<footer class="site">
+<div class="wrap">
+<div class="foot">
+<div>
+<a class="brand" href="/"><b>SOIDEM</b><span>Data Technologies</span></a>
+<p class="desc">Tecnología diseñada alrededor de operaciones reales.</p>
+<p style="margin-top:12px;font-size:13px">Sistema de gestión de calidad certificado según ISO 9001:2015.</p>
+</div>
+<div><h4>Web</h4><ul>
+<li><a href="/#que-resolvemos">Qué resolvemos</a></li>
+<li><a href="/#productos">Productos</a></li>
+<li><a href="/#caso">Casos</a></li>
+<li><a href="/#calidad">Calidad</a></li>
+</ul></div>
+<div><h4>Legal</h4><ul>
+<li><a href="/privacidad/">Política de privacidad</a></li>
+<li><a href="/calidad-interna/">Política de calidad</a></li>
+<li><a href="/iso9001/">ISO 9001</a></li>
+</ul></div>
+<div><h4>Contacto</h4><ul>
+<li>Calle Mallorca 277, 2-2 · 08037 Barcelona</li>
+<li><a href="tel:+34623199531">+34 623 199 531</a></li>
+<li><a href="mailto:info@soidemdt.com">info@soidemdt.com</a></li>
+<li><a href="https://www.linkedin.com/company/soidem-data-technologies" rel="noopener" target="_blank">LinkedIn</a> &middot; <a href="https://www.instagram.com/soidem_tech/" rel="noopener" target="_blank">Instagram</a></li>
+</ul></div>
+</div>
+<div class="foot-b">
+<span>&copy; 2026 SOIDEM Data Technologies. Todos los derechos reservados.</span>
+<span>Barcelona</span>
+</div>
+</div>
+</footer>
+<script>
+var bg=document.getElementById('bg'),menu=document.getElementById('menu');
+bg.addEventListener('click',function(){var o=menu.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
+menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open')})});
+</script>
+</body>
+</html>

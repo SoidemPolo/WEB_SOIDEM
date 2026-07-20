@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ISO 9001 | SOIDEM Data Technologies</title>
+<meta content="Certificación ISO 9001:2015 de SOIDEM Data Technologies. Descarga el certificado en español e inglés." name="description"/>
+<link rel="canonical" href="https://www.soidemdt.com/iso9001/"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<meta name="theme-color" content="#191C1E"/>
+<style>
+:root{
+  --paper:#FAF9F6; --ink:#191C1E; --stone:#6B7276; --stone-2:#736E5F; --hair:#E5E2DA;
+  --teal:#1E798D; --teal-d:#155D6E; --deep:#0C3540;
+  --maxw:1180px; --alt:#F2F0EA; --mute:#6B7276; --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Inter,Helvetica,sans-serif;
+  background:var(--paper);color:var(--ink);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;color:inherit;background:none;border:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+h1,h2,h3{font-weight:650;letter-spacing:-.024em;line-height:1.15}
+section{padding:76px 0}
+.kicker{font-size:12.5px;font-weight:650;letter-spacing:.15em;text-transform:uppercase;color:var(--stone);margin-bottom:16px}
+h2{font-size:clamp(30px,4vw,46px);max-width:24ch}
+.lead{font-size:clamp(17px,1.4vw,19px);color:var(--stone);max-width:64ch;margin-top:16px}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2.5px solid var(--teal);outline-offset:3px;border-radius:4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:#fff;font-size:16.5px;font-weight:600;padding:15px 30px;border-radius:8px;transition:background .2s,transform .2s}
+.btn:hover{background:var(--teal-d);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--ink);border:1.5px solid #C9C5BB}
+.btn-g:hover{background:transparent;border-color:var(--ink)}
+.tlink{color:var(--teal);font-weight:600;font-size:16px;display:inline-flex;align-items:center;gap:5px}
+.tlink::after{content:"\2192";transition:transform .2s}
+.tlink:hover::after{transform:translateX(4px)}
+
+header{position:sticky;top:0;z-index:50;background:rgba(250,249,246,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--hair)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.brand{display:flex;flex-direction:column;line-height:1.15}
+.brand b{font-size:18px;font-weight:750;letter-spacing:-.01em}
+.brand span{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--stone)}
+.nav ul{display:flex;gap:30px;list-style:none;align-items:center}
+.nav ul a{font-size:15px;color:#3d4347;font-weight:500}
+.nav ul a:hover{color:var(--teal)}
+.nav .cta{background:var(--teal);color:#fff;padding:10px 20px;border-radius:8px;font-weight:600}
+.nav .cta:hover{background:var(--teal-d);color:#fff}
+.burger{display:none;padding:8px}
+.burger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0}
+
+footer.site{padding:50px 0 36px;font-size:14px;color:var(--stone);border-top:1px solid var(--hair);background:#fff}
+.foot{display:flex;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.foot .desc{max-width:32ch;margin-top:10px}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.foot a:hover{color:var(--ink)}
+.foot h4{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone-2);margin-bottom:12px;font-weight:650}
+.foot-b{margin-top:42px;padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--stone-2)}
+
+.skip-link{position:absolute;left:-9999px;top:auto;z-index:100;background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-weight:600;font-size:15px}
+.skip-link:focus{left:16px;top:16px}
+
+@media(max-width:760px){
+  .nav ul{position:fixed;inset:64px 0 auto 0;background:var(--paper);flex-direction:column;padding:26px;display:none;border-bottom:1px solid var(--hair);z-index:60;align-items:flex-start}
+  .nav ul.open{display:flex}
+  .burger{display:block}
+  .btn{width:100%;justify-content:center}
+  section{padding:56px 0}
+}
+
+
+.iso-wrap{padding-top:56px;padding-bottom:96px}
+.iso-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;margin-top:36px;align-items:start}
+@media(max-width:880px){.iso-grid{grid-template-columns:1fr}}
+.iso-grid ul{margin:16px 0 0 20px;color:#3d4347;font-size:15.5px;line-height:1.7}
+.iso-grid p{font-size:15.5px;line-height:1.65;color:#3d4347;margin-bottom:14px}
+.iso-cert{border:1px solid var(--hair);border-radius:16px;padding:16px;background:#fff;text-align:center}
+.iso-cert img{border-radius:8px;margin:0 auto}
+.iso-cert .dls{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Saltar al contenido</a>
+<header>
+<div class="nav">
+<a aria-label="SOIDEM Data Technologies, inicio" class="brand" href="/">
+<b>SOIDEM</b><span>Data Technologies</span>
+</a>
+<nav aria-label="Principal"><ul id="menu">
+<li><a href="/#que-resolvemos">Qué resolvemos</a></li>
+<li><a href="/#productos">Productos</a></li>
+<li><a href="/#caso">Casos</a></li>
+<li><a href="/#calidad">Calidad</a></li>
+<li><a class="cta" href="/contacto/">Cuéntanos el problema</a></li>
+</ul></nav>
+<button aria-expanded="false" aria-label="Abrir menú" class="burger" id="bg"><span></span><span></span><span></span></button>
+</div>
+</header>
+<main id="main-content">
+<section class="iso-wrap">
+<div class="wrap">
+<p class="kicker">Calidad</p>
+<h2>Certificación ISO 9001:2015</h2>
+<div class="iso-grid">
+<div>
+<p>En SOIDEM Data Technologies creemos que la calidad, la seguridad y la mejora continua no son solo un objetivo, sino la base sobre la que construimos cada proyecto.</p>
+<p>Nuestra certificación ISO confirma que trabajamos según estándares internacionales reconocidos, garantizando procesos sólidos, trazabilidad, fiabilidad y un compromiso constante con la excelencia tecnológica y operativa.</p>
+<p>Esta certificación refleja nuestra forma de trabajar:</p>
+<ul>
+<li>Procesos estandarizados y eficientes.</li>
+<li>Mejora continua de nuestros servicios.</li>
+<li>Compromiso con la calidad y la satisfacción del cliente.</li>
+<li>Fiabilidad en entornos industriales y tecnológicos.</li>
+<li>Gestión profesional de proyectos y datos.</li>
+</ul>
+<p style="margin-top:16px">Trabajamos cada día para ofrecer soluciones innovadoras manteniendo los máximos estándares de calidad en todos nuestros desarrollos, integraciones y servicios de consultoría.</p>
+<p><a class="tlink" href="/calidad-interna/">Ver Política de Calidad completa</a></p>
+</div>
+<!-- OJO: esta imagen y estos dos PDF siguen alojados en Wix. Descárgalos y súbelos también al repo antes de cancelar Wix, luego actualiza estos 3 links. -->
+<div class="iso-cert">
+<img alt="Certificado ISO 9001:2015 de SOIDEM Data Technologies" src="https://static.wixstatic.com/media/1e5c2d_f5a462d91e3d4a75b8d53f683dabe8d9~mv2.jpg/v1/fill/w_460,h_567,al_c,q_88/iso.jpg" width="230" height="284"/>
+<div class="dls">
+<a class="btn-g btn" href="https://www.soidemdt.com/_files/ugd/1e5c2d_7b553613c0984b99973f3959e8ea95ce.pdf" target="_blank" rel="noopener">Descargar ESP</a>
+<a class="btn-g btn" href="https://www.soidemdt.com/_files/ugd/1e5c2d_699d5520e9cc48deac2cdcb363237146.pdf" target="_blank" rel="noopener">Descargar ENG</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site">
+<div class="wrap">
+<div class="foot">
+<div>
+<a class="brand" href="/"><b>SOIDEM</b><span>Data Technologies</span></a>
+<p class="desc">Tecnología diseñada alrededor de operaciones reales.</p>
+<p style="margin-top:12px;font-size:13px">Sistema de gestión de calidad certificado según ISO 9001:2015.</p>
+</div>
+<div><h4>Web</h4><ul>
+<li><a href="/#que-resolvemos">Qué resolvemos</a></li>
+<li><a href="/#productos">Productos</a></li>
+<li><a href="/#caso">Casos</a></li>
+<li><a href="/#calidad">Calidad</a></li>
+</ul></div>
+<div><h4>Legal</h4><ul>
+<li><a href="/privacidad/">Política de privacidad</a></li>
+<li><a href="/calidad-interna/">Política de calidad</a></li>
+<li><a href="/iso9001/">ISO 9001</a></li>
+</ul></div>
+<div><h4>Contacto</h4><ul>
+<li>Calle Mallorca 277, 2-2 · 08037 Barcelona</li>
+<li><a href="tel:+34623199531">+34 623 199 531</a></li>
+<li><a href="mailto:info@soidemdt.com">info@soidemdt.com</a></li>
+<li><a href="https://www.linkedin.com/company/soidem-data-technologies" rel="noopener" target="_blank">LinkedIn</a> &middot; <a href="https://www.instagram.com/soidem_tech/" rel="noopener" target="_blank">Instagram</a></li>
+</ul></div>
+</div>
+<div class="foot-b">
+<span>&copy; 2026 SOIDEM Data Technologies. Todos los derechos reservados.</span>
+<span>Barcelona</span>
+</div>
+</div>
+</footer>
+<script>
+var bg=document.getElementById('bg'),menu=document.getElementById('menu');
+bg.addEventListener('click',function(){var o=menu.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
+menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open')})});
+</script>
+</body>
+</html>
