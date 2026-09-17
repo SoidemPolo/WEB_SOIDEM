@@ -5,8 +5,17 @@ import { BadgeCheck, FileSearch, RefreshCw, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 
-/** Marca de certificación, con el fondo quitado y servida desde el repositorio. */
-const CERT_IMAGE = "/images/iso-9001-intertek.png";
+/**
+ * Marca de certificación en blanco, sin fondo.
+ *
+ * El blanco lo permite expresamente la norma de uso de Intertek (F205, 1.4):
+ * "may be reproduced in black, white, Intertek Cerello, or in accordance with
+ * the certified organization's brand identity". Lo que la 1.6 prohíbe es
+ * alterar la marca; aquí solo cambia el color, con las proporciones y todos
+ * los trazos intactos. La versión original en gris se usa en /iso9001, sobre
+ * fondo claro.
+ */
+const CERT_IMAGE = "/images/iso-9001-intertek-blanco.png";
 
 /** Lo que la certificación significa en el día a día, no en el papel. */
 const GARANTIAS = [
@@ -84,20 +93,13 @@ export function Iso() {
 
           <Reveal delay={0.1}>
             <figure className="mx-auto w-fit">
-              {/* La marca va sobre una placa clara: es gris oscuro y sobre el
-                  fondo de la sección no se leería. Recolorearla a blanco sería
-                  alterar una marca de certificación ajena. */}
-              <div className="rounded-[20px] border border-white/12 bg-white/[0.06] p-3 backdrop-blur-sm">
-                <div className="rounded-[14px] bg-white px-8 py-7">
-                  <Image
-                    src={CERT_IMAGE}
-                    alt="Marca de certificación ISO 9001:2015 emitida por Intertek"
-                    width={1788}
-                    height={2232}
-                    className="h-auto w-full max-w-[250px]"
-                  />
-                </div>
-              </div>
+              <Image
+                src={CERT_IMAGE}
+                alt="Marca de certificación ISO 9001:2015 emitida por Intertek"
+                width={1788}
+                height={2232}
+                className="h-auto w-full max-w-[260px]"
+              />
               <figcaption className="mt-3 text-center text-[12.5px] text-white/45">
                 Certificado ISO 9001:2015 · Intertek
               </figcaption>
