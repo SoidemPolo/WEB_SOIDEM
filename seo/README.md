@@ -30,8 +30,34 @@ salen en las dos.
 
 `/ti` mira disponibilidad, tiempo de respuesta, indexabilidad, robots.txt,
 sitemap, canonical, idioma y viewport: cosas que se arreglan tocando servidor o
-código. `/mkt` mira título, descripción, H1, Open Graph y datos estructurados:
-cosas que se arreglan escribiendo. La raíz entra por `/ti`.
+código. La raíz entra por `/ti`.
+
+`/mkt` lleva el embudo comercial completo, el reparto de los clics por canal y,
+al final, lo que sí se puede medir hoy descargando la página (título,
+descripción, Open Graph, datos estructurados).
+
+### El embudo
+
+De aparecer en Google a firmar. Cada escalón declara de qué fuente sale su
+número y qué palanca se toca cuando va flojo.
+
+| Escalón | Fuente |
+|---|---|
+| Impresiones | Search Console |
+| Clics | Search Console |
+| Sesiones | Google Analytics 4 |
+| Interés real | Google Analytics 4 |
+| Contactos | Backend de SOIDEM |
+| Oportunidades | HubSpot |
+| Clientes | HubSpot |
+
+Canales: orgánico, directo, referido, redes y subdominios de producto.
+
+**Ninguna de esas cifras existe todavía.** El panel comprueba qué fuentes están
+configuradas —por variable de entorno, ver `.env.example`— y deja vacío lo que
+no puede calcular, diciendo qué falta. No se rellenan con datos de ejemplo:
+un número inventado en un panel es indistinguible de uno real, y sobre él se
+decide dónde gastar.
 
 ## Qué mide, y qué no
 
