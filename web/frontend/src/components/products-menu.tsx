@@ -95,25 +95,37 @@ export function ProductsMenu({ activa = false }: { activa?: boolean }) {
         )}
       >
         <ul className="overflow-hidden rounded-card border border-hair bg-white p-1.5 shadow-[0_18px_44px_rgba(25,28,30,.14)]">
-          {PRODUCTS.map((product) => (
-            <li key={product.id}>
-              <a
-                href={productHref(product.id)}
-                onClick={() => setOpen(false)}
-                className="group block rounded-[10px] px-3 py-2.5 transition-colors hover:bg-teal/[0.06]"
-              >
-                <span className="flex flex-wrap items-baseline gap-1.5">
-                  <b className="text-[15px] font-[650] text-ink group-hover:text-teal-dark">
-                    {product.name}
-                  </b>
-                  <small className="text-[11.5px] text-stone">· {product.tag}</small>
-                </span>
-                <span className="mt-0.5 block text-[12.5px] leading-snug text-stone">
-                  {product.value}
-                </span>
-              </a>
-            </li>
-          ))}
+          {PRODUCTS.map((product) => {
+            const Icono = product.icon;
+            return (
+              <li key={product.id}>
+                <a
+                  href={productHref(product.id)}
+                  onClick={() => setOpen(false)}
+                  style={{ "--marca": product.color } as React.CSSProperties}
+                  className="group flex items-start gap-3 rounded-[10px] px-3 py-2.5 transition-colors hover:bg-[color-mix(in_srgb,var(--marca)_8%,white)]"
+                >
+                  <span
+                    aria-hidden
+                    className="grid size-8 shrink-0 place-items-center rounded-[9px] bg-[color-mix(in_srgb,var(--marca)_12%,white)] text-[var(--marca)] transition-colors duration-200 group-hover:bg-[var(--marca)] group-hover:text-white"
+                  >
+                    <Icono className="size-4" strokeWidth={2.2} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="flex flex-wrap items-baseline gap-1.5">
+                      <b className="text-[15px] font-[650] text-ink transition-colors group-hover:text-[var(--marca)]">
+                        {product.name}
+                      </b>
+                      <small className="text-[11.5px] text-stone">· {product.tag}</small>
+                    </span>
+                    <span className="mt-0.5 block text-[12.5px] leading-snug text-stone">
+                      {product.value}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
@@ -128,18 +140,30 @@ export function ProductsMenuMobile({ onNavigate }: { onNavigate: () => void }) {
         Productos
       </p>
       <ul className="flex flex-col">
-        {PRODUCTS.map((product) => (
-          <li key={product.id}>
-            <a
-              href={productHref(product.id)}
-              onClick={onNavigate}
-              className="flex flex-wrap items-baseline gap-1.5 py-2 text-[15px] font-medium text-[#3d4347]"
-            >
-              <b className="font-[650]">{product.name}</b>
-              <small className="text-[11.5px] text-stone">· {product.tag}</small>
-            </a>
-          </li>
-        ))}
+        {PRODUCTS.map((product) => {
+          const Icono = product.icon;
+          return (
+            <li key={product.id}>
+              <a
+                href={productHref(product.id)}
+                onClick={onNavigate}
+                className="flex items-center gap-3 py-2 text-[15px] font-medium text-[#3d4347]"
+              >
+                <span
+                  aria-hidden
+                  className="grid size-7 shrink-0 place-items-center rounded-lg text-white"
+                  style={{ background: product.color }}
+                >
+                  <Icono className="size-[15px]" strokeWidth={2.2} />
+                </span>
+                <span className="flex flex-wrap items-baseline gap-1.5">
+                  <b className="font-[650]">{product.name}</b>
+                  <small className="text-[11.5px] text-stone">· {product.tag}</small>
+                </span>
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

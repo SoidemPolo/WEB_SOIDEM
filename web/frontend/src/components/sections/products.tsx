@@ -109,6 +109,7 @@ export function Products() {
   const current = PRODUCTS.find((p) => p.id === active) ?? PRODUCTS[0];
   const shot = SHOTS[current.id];
   const link = linkFor(current.id);
+  const IconoActual = current.icon;
 
   return (
     <section id="productos" ref={sectionRef} className="py-section">
@@ -128,6 +129,7 @@ export function Products() {
           <div role="tablist" aria-label="Productos" className="flex flex-col gap-2">
             {PRODUCTS.map((product) => {
               const selected = product.id === active;
+              const Icono = product.icon;
               return (
                 <button
                   key={product.id}
@@ -139,18 +141,39 @@ export function Products() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActive(product.id)}
                   onMouseEnter={() => seleccionarAlPasar(product.id)}
+                  /* El color de marca del producto viaja como variable: así una
+                     sola regla sirve para los seis en vez de seis juegos de
+                     clases, y Tailwind no tiene que generar utilidades por
+                     color. */
+                  style={{ "--marca": product.color } as React.CSSProperties}
                   className={cn(
-                    "rounded-card border p-4 text-left transition-colors",
+                    "group flex items-start gap-3.5 rounded-card border p-4 text-left",
+                    "transition-[border-color,background,box-shadow,transform] duration-200",
+                    "hover:-translate-y-px hover:border-[var(--marca)] hover:shadow-[0_10px_28px_color-mix(in_srgb,var(--marca)_18%,transparent)]",
                     selected
-                      ? "border-teal bg-teal/[0.06]"
-                      : "border-hair bg-white hover:border-line",
+                      ? "border-[var(--marca)] bg-[color-mix(in_srgb,var(--marca)_7%,white)]"
+                      : "border-hair bg-white",
                   )}
                 >
-                  <span className="flex flex-wrap items-baseline gap-2">
-                    <b className="text-[17px] font-[650]">{product.name}</b>
-                    <small className="text-[12.5px] text-stone">· {product.tag}</small>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "grid size-9 shrink-0 place-items-center rounded-[10px] transition-colors duration-200",
+                      "bg-[color-mix(in_srgb,var(--marca)_12%,white)] text-[var(--marca)]",
+                      "group-hover:bg-[var(--marca)] group-hover:text-white",
+                      selected && "bg-[var(--marca)] text-white",
+                    )}
+                  >
+                    <Icono className="size-[18px]" strokeWidth={2.2} />
                   </span>
-                  <span className="mt-1 block text-[14px] text-stone">{product.value}</span>
+
+                  <span className="min-w-0">
+                    <span className="flex flex-wrap items-baseline gap-2">
+                      <b className="text-[17px] font-[650]">{product.name}</b>
+                      <small className="text-[12.5px] text-stone">· {product.tag}</small>
+                    </span>
+                    <span className="mt-1 block text-[14px] text-stone">{product.value}</span>
+                  </span>
                 </button>
               );
             })}
@@ -171,7 +194,21 @@ export function Products() {
                 transition={{ duration: 0.25 }}
                 className="overflow-hidden rounded-card border border-hair bg-white"
               >
-                <div className="flex items-center justify-between gap-4 border-b border-hair bg-alt px-4 py-3">
+                <div
+                  className="flex items-center justify-between gap-4 border-b border-hair px-4 py-3"
+                  style={{
+                    background: `color-mix(in srgb, ${current.color} 7%, white)`,
+                    borderColor: `color-mix(in srgb, ${current.color} 22%, transparent)`,
+                  }}
+                >
+                  <span className="flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="grid size-8 shrink-0 place-items-center rounded-[9px] text-white"
+                      style={{ background: current.color }}
+                    >
+                      <IconoActual className="size-4" strokeWidth={2.2} />
+                    </span>
                   {current.logo ? (
                     <Image
                       src={current.logo.src}
@@ -183,6 +220,7 @@ export function Products() {
                   ) : (
                     <b className="text-[15px] font-[650]">{current.name}</b>
                   )}
+                  </span>
                   <span className="text-[11.5px] font-semibold uppercase tracking-[0.1em] text-stone">
                     {current.tag}
                   </span>
