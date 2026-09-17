@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 /* ============================================================
    Tokens SOIDEM — mismos valores que la web actual (legacy/)
    ============================================================ */
@@ -820,52 +822,37 @@
   }
 }
 
+/* Animación de la órbita, instalada por la CLI de magic-ui junto al componente
+   orbiting-circles. La borré sin querer al limpiar el CSS de la cinta anterior;
+   sin ella los iconos se apilan en el centro. */
+@theme inline {
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg))
+        translateY(calc(var(--radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg))
+        translateY(calc(var(--radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+}
+
 @layer components {
-  /* Cinta de tecnologías: dos filas en sentidos opuestos. Cada fila se pinta
-     dos veces y la animación recorre la mitad, así el bucle no da saltos. */
-  @keyframes marqueeIzq {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes marqueeDer {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
-  }
-  .marquee-izq {
-    animation: marqueeIzq 46s linear infinite;
-  }
-  .marquee-der {
-    animation: marqueeDer 46s linear infinite;
-  }
-  /* Al pasar el ratón se detiene, para poder leer una marca concreta. */
-  .marquee-cinta:hover .marquee-izq,
-  .marquee-cinta:hover .marquee-der {
-    animation-play-state: paused;
-  }
-  /* Los bordes se desvanecen para que las insignias entren y salgan. */
-  .marquee-cinta {
-    --desvanecido: 90px;
-    mask-image: linear-gradient(
-      90deg,
-      transparent 0,
-      #000 var(--desvanecido),
-      #000 calc(100% - var(--desvanecido)),
-      transparent 100%
-    );
-  }
-  @media (max-width: 760px) {
-    .marquee-cinta {
-      --desvanecido: 32px;
-    }
-  }
+  /* La órbita no debe girar sin parar si el sistema pide menos animación.
+     Quitar solo la animación no basta: la posición de cada icono la calcula el
+     propio keyframe, así que sin ella se apilarían todos en el centro. Se les
+     da a mano la posición del fotograma inicial. */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-izq,
-    .marquee-der {
+    .animate-orbit {
       animation: none;
-    }
-    .marquee-cinta {
-      overflow-x: auto;
-      mask-image: none;
+      transform: rotate(calc(var(--angle) * 1deg))
+        translateY(calc(var(--radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
     }
   }
 }
