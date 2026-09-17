@@ -1,0 +1,20 @@
+# Secretos
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+node_modules/
+
+# Builds
+.next/
+out/
+dist/
+build/
+
+# Prisma
+web/database/*.db
+
+# Sistema
+.DS_Store
+Thumbs.db
