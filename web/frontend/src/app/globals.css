@@ -29,7 +29,10 @@
 
   /* Medidas */
   --radius-card: 16px;
-  --spacing-section: 104px;
+  /* 76px y no los 104 del original: las secciones portadas del HTML antiguo
+     usan entre 72 y 92, así que con 104 las que llevan py-section dejaban 208px
+     de hueco entre ellas y se notaba el vacío. */
+  --spacing-section: 76px;
 }
 
 @layer base {
