@@ -9,152 +9,46 @@ import { Reveal } from "@/components/ui/reveal";
 import { PRODUCTS, productIdFromHash } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
-type Shot =
-  | { kind: "image"; src: string; alt: string; w: number; h: number }
-  | { kind: "mock"; title: string; body: React.ReactNode };
+/** Captura de cada producto. Las de Captur, Factur y TMS están tomadas de su
+ *  propia web; MESOEE y EBR son paneles reales del producto. */
+type Shot = { src: string; alt: string; w: number; h: number };
 
-/** La captura o el mockup de cada producto, por id. Los datos viven en lib/products. */
 const SHOTS: Record<string, Shot> = {
   mesoee: {
-    kind: "image",
     src: "/images/mesoee-panel.png",
     alt: "Panel MESOEE con incidencias, OEE, mermas y estado de una línea de producción",
     w: 1903,
     h: 953,
   },
   ebr: {
-    kind: "image",
     src: "/images/ebr-panel.png",
     alt: "Panel EBR con fabricación guiada, recetas, lotes, desviaciones y audit trail",
     w: 1901,
     h: 895,
   },
   captur: {
-    kind: "mock",
-    title: "Captur · Jornada",
-    body: (
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <MockLabel>Estado</MockLabel>
-          <div className="rounded-xl border border-hair bg-white px-4 py-6 text-center text-[15px] font-semibold">
-            Jornada
-            <br />
-            en curso
-          </div>
-          <div className="mt-3 flex gap-2">
-            <MockChip active>Iniciar</MockChip>
-            <MockChip>Finalizar</MockChip>
-          </div>
-        </div>
-        <div>
-          <MockLabel>Calendario</MockLabel>
-          <div className="grid grid-cols-7 gap-1.5">
-            {Array.from({ length: 21 }).map((_, i) => (
-              <i
-                key={i}
-                className={cn(
-                  "aspect-square rounded-[3px]",
-                  i === 5 || i === 6 ? "bg-teal" : "bg-hair",
-                )}
-              />
-            ))}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <MockChip>Vacaciones</MockChip>
-            <MockChip>Solicitar corrección</MockChip>
-          </div>
-        </div>
-      </div>
-    ),
+    src: "/images/captur-panel.png",
+    alt: "Terminal de fichaje de CAPTUR con el estado de la jornada de cada persona",
+    w: 1226,
+    h: 1100,
   },
   factur: {
-    kind: "mock",
-    title: "Factur · Documento entrante",
-    body: (
-      <div className="grid items-center gap-4 sm:grid-cols-[1fr_auto_1fr]">
-        <div>
-          <MockLabel>Documento</MockLabel>
-          <div className="space-y-2 rounded-xl border border-hair bg-white p-4">
-            {[70, 55, 85, 40, 65].map((w, i) => (
-              <span
-                key={i}
-                className={cn("block h-2 rounded-full", i % 2 === 1 ? "bg-teal/30" : "bg-hair")}
-                style={{ width: `${w}%` }}
-              />
-            ))}
-          </div>
-        </div>
-        <span aria-hidden className="text-center text-2xl text-teal">
-          →
-        </span>
-        <div>
-          <MockLabel>Campos extraídos</MockLabel>
-          <div className="space-y-1.5">
-            {["Proveedor", "Fecha", "Líneas", "Importe"].map((field) => (
-              <p
-                key={field}
-                className="flex items-center justify-between rounded-lg border border-hair bg-white px-3 py-2 text-[13px]"
-              >
-                {field}
-                <i className="size-2 rounded-full bg-ok" />
-              </p>
-            ))}
-          </div>
-          <div className="mt-3 flex gap-2">
-            <MockChip active>Validar</MockChip>
-            <MockChip>Enviar al ERP</MockChip>
-          </div>
-        </div>
-      </div>
-    ),
+    src: "/images/factur-panel.png",
+    alt: "Factur extrayendo los campos de una orden de compra a partir del documento",
+    w: 1256,
+    h: 1542,
   },
   tms: {
-    kind: "mock",
-    title: "TMS · Seguimiento de envío",
-    body: (
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <MockLabel>Ruta</MockLabel>
-          <div className="flex items-center gap-1">
-            <i className="size-3 rounded-full border-2 border-teal bg-white" />
-            <i className="h-0.5 flex-1 bg-teal" />
-            <i className="size-3 rounded-full border-2 border-teal bg-teal" />
-            <i className="h-0.5 flex-1 border-t-2 border-dashed border-line" />
-            <i className="size-3 rounded-full border-2 border-line bg-white" />
-          </div>
-          <div className="mt-2 flex justify-between text-[11.5px] text-stone">
-            <span>Recogida</span>
-            <span>Tránsito</span>
-            <span>Entrega</span>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <MockChip>Envío</MockChip>
-            <MockChip active>Incidencia detectada</MockChip>
-            <MockChip>Seguimiento</MockChip>
-            <MockChip>Reclamación</MockChip>
-          </div>
-        </div>
-        <div>
-          <MockLabel>Detalle</MockLabel>
-          <div className="space-y-2 rounded-xl border border-hair bg-white p-4">
-            {[60, 80, 45].map((w, i) => (
-              <span
-                key={i}
-                className="block h-2 rounded-full bg-hair"
-                style={{ width: `${w}%` }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
+    src: "/images/tms-panel.png",
+    alt: "Ficha operativa de un envío en Soidem TMS, con su timeline, SLA e incidencia",
+    w: 1310,
+    h: 1092,
   },
   capfa: {
-    kind: "image",
-    src: "https://static.wixstatic.com/media/2ec8b3_afeee6860b1e43a496f73d61d3d31041~mv2.png/v1/fill/w_1400,h_800,al_c,q_88/capfa.png",
-    alt: "Captura real del cuadro de mando +CAPFA",
-    w: 1400,
-    h: 800,
+    src: "/images/capfa-panel.jpg",
+    alt: "Cuadro de mando de +CAPFA con los indicadores del centro y sus gráficas de actividad",
+    w: 1594,
+    h: 896,
   },
 };
 
@@ -173,6 +67,26 @@ function linkFor(id: string) {
 export function Products() {
   const [active, setActive] = useState(PRODUCTS[0].id);
   const sectionRef = useRef<HTMLElement>(null);
+  const ultimoScroll = useRef(0);
+
+  /**
+   * Pasar el ratón por una pestaña la selecciona, como en la web actual. Pero si
+   * se está haciendo scroll con la rueda y el cursor queda sobre la lista, las
+   * pestañas van pasando solas bajo el puntero. Se ignora el hover durante un
+   * instante después de cada scroll para que eso no ocurra.
+   */
+  useEffect(() => {
+    const onScroll = () => {
+      ultimoScroll.current = Date.now();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const seleccionarAlPasar = (id: string) => {
+    if (Date.now() - ultimoScroll.current < 250) return;
+    setActive(id);
+  };
 
   /**
    * El desplegable de la cabecera enlaza a #producto-<id>. Al llegar con ese
@@ -224,7 +138,7 @@ export function Products() {
                   aria-controls={`panel-${product.id}`}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActive(product.id)}
-                  onMouseEnter={() => setActive(product.id)}
+                  onMouseEnter={() => seleccionarAlPasar(product.id)}
                   className={cn(
                     "rounded-card border p-4 text-left transition-colors",
                     selected
@@ -257,25 +171,29 @@ export function Products() {
                 transition={{ duration: 0.25 }}
                 className="overflow-hidden rounded-card border border-hair bg-white"
               >
-                {shot.kind === "image" ? (
-                  <Image
-                    src={shot.src}
-                    alt={shot.alt}
-                    width={shot.w}
-                    height={shot.h}
-                    className="h-auto w-full"
-                  />
-                ) : (
-                  <div aria-hidden>
-                    <div className="flex items-center gap-1.5 border-b border-hair bg-alt px-4 py-2.5 text-[12px] text-stone">
-                      <i className="size-2 rounded-full bg-danger" />
-                      <i className="size-2 rounded-full bg-warn" />
-                      <i className="size-2 rounded-full bg-ok" />
-                      <span className="ml-1.5">{shot.title}</span>
-                    </div>
-                    <div className="p-5">{shot.body}</div>
-                  </div>
-                )}
+                <div className="flex items-center justify-between gap-4 border-b border-hair bg-alt px-4 py-3">
+                  {current.logo ? (
+                    <Image
+                      src={current.logo.src}
+                      alt={current.name}
+                      width={current.logo.w}
+                      height={current.logo.h}
+                      className="h-6 w-auto object-contain"
+                    />
+                  ) : (
+                    <b className="text-[15px] font-[650]">{current.name}</b>
+                  )}
+                  <span className="text-[11.5px] font-semibold uppercase tracking-[0.1em] text-stone">
+                    {current.tag}
+                  </span>
+                </div>
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  width={shot.w}
+                  height={shot.h}
+                  className="h-auto w-full"
+                />
               </motion.div>
             </AnimatePresence>
 
@@ -289,29 +207,3 @@ export function Products() {
   );
 }
 
-function MockLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone">
-      {children}
-    </p>
-  );
-}
-
-function MockChip({
-  children,
-  active = false,
-}: {
-  children: React.ReactNode;
-  active?: boolean;
-}) {
-  return (
-    <span
-      className={cn(
-        "rounded-full border px-3 py-1 text-[12px] font-medium",
-        active ? "border-teal bg-teal text-white" : "border-hair bg-white text-stone",
-      )}
-    >
-      {children}
-    </span>
-  );
-}

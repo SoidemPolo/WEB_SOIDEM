@@ -10,6 +10,8 @@ export type ProductMeta = {
   value: string;
   /** Sitio propio del producto, si lo tiene. */
   site?: string;
+  /** Logotipo propio, capturado de su página. Los productos internos no tienen. */
+  logo?: { src: string; w: number; h: number };
 };
 
 export const PRODUCTS: ProductMeta[] = [
@@ -31,6 +33,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Control horario",
     value: "El fichaje que tu equipo de verdad usará.",
     site: "https://captur.soidemdt.com/",
+    logo: { src: "/images/captur-logo.png", w: 240, h: 64 },
   },
   {
     id: "factur",
@@ -38,6 +41,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Órdenes de compra",
     value: "Tus pedidos. En datos. En segundos.",
     site: "https://factur.soidemdt.com/",
+    logo: { src: "/images/factur-logo.png", w: 202, h: 64 },
   },
   {
     id: "tms",
@@ -45,6 +49,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Logística de envíos",
     value: "Cada envío bajo control.",
     site: "https://tms.soidemdt.com/",
+    logo: { src: "/images/tms-logo.png", w: 170, h: 64 },
   },
   {
     id: "capfa",
