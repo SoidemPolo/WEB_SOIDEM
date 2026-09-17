@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ============================================================
+   Tokens SOIDEM — mismos valores que la web actual (legacy/)
+   ============================================================ */
+@theme {
+  /* Paleta */
+  --color-paper: #faf9f6;
+  --color-alt: #f2f0ea;
+  --color-ink: #191c1e;
+  --color-stone: #6b7276;
+  --color-stone-2: #736e5f;
+  --color-hair: #e5e2da;
+  --color-teal: #1e798d;
+  --color-teal-dark: #155d6e;
+  --color-deep: #0c3540;
+  --color-line: #c9c5bb;
+
+  /* Estados del panel */
+  --color-ok: #4ade80;
+  --color-warn: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #37c0db;
+
+  /* Tipografía */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    Roboto, Inter, Helvetica, sans-serif;
+
+  /* Medidas */
+  --radius-card: 16px;
+  --spacing-section: 104px;
+}
+
+@layer base {
+  * {
+    @apply border-hair;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 650;
+    letter-spacing: -0.024em;
+    line-height: 1.07;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2.5px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility wrap {
+  margin-inline: auto;
+  max-width: 1180px;
+  padding-inline: 28px;
+}
+
+@utility kicker {
+  margin-bottom: 16px;
+  font-size: 12.5px;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+@utility lead {
+  margin-top: 18px;
+  max-width: 54ch;
+  font-size: clamp(17px, 1.65vw, 20px);
+  color: var(--color-stone);
+}
+
+@utility h2-display {
+  max-width: 21ch;
+  font-size: clamp(30px, 4vw, 50px);
+}
