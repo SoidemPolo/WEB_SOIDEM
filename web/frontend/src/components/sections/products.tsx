@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
-import { ArrowLink } from "@/components/ui/arrow-link";
 import { Reveal } from "@/components/ui/reveal";
 import { PRODUCTS, productIdFromHash } from "@/lib/products";
 import { cn } from "@/lib/utils";
@@ -184,6 +183,7 @@ export function Products() {
             id={`panel-${current.id}`}
             aria-labelledby={`tab-${current.id}`}
             className="flex flex-col gap-4"
+            style={{ "--marca": current.color } as React.CSSProperties}
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -195,49 +195,74 @@ export function Products() {
                 className="overflow-hidden rounded-card border border-hair bg-white"
               >
                 <div
-                  className="flex items-center justify-between gap-4 border-b border-hair px-4 py-3"
+                  className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3"
                   style={{
                     background: `color-mix(in srgb, ${current.color} 7%, white)`,
                     borderColor: `color-mix(in srgb, ${current.color} 22%, transparent)`,
                   }}
                 >
-                  <span className="flex items-center gap-3">
-                    <span
-                      aria-hidden
-                      className="grid size-8 shrink-0 place-items-center rounded-[9px] text-white"
-                      style={{ background: current.color }}
-                    >
-                      <IconoActual className="size-4" strokeWidth={2.2} />
-                    </span>
+                  {/* Un solo distintivo: si el producto tiene logotipo, ese
+                      logotipo ya lleva su icono dentro y añadir el nuestro
+                      lo duplicaba. */}
                   {current.logo ? (
                     <Image
                       src={current.logo.src}
                       alt={current.name}
                       width={current.logo.w}
                       height={current.logo.h}
-                      className="h-6 w-auto object-contain"
+                      className="h-6 w-auto shrink-0 object-contain"
                     />
                   ) : (
-                    <b className="text-[15px] font-[650]">{current.name}</b>
+                    <span className="flex shrink-0 items-center gap-2.5">
+                      <span
+                        aria-hidden
+                        className="grid size-8 place-items-center rounded-[9px] text-white"
+                        style={{ background: current.color }}
+                      >
+                        <IconoActual className="size-4" strokeWidth={2.2} />
+                      </span>
+                      <b className="text-[15px] font-[650]">{current.name}</b>
+                    </span>
                   )}
-                  </span>
-                  <span className="text-[11.5px] font-semibold uppercase tracking-[0.1em] text-stone">
-                    {current.tag}
-                  </span>
+
+                  {/* En mayúsculas y con más peso que la etiqueta de la
+                      derecha: así el claim manda y no se confunden los dos. */}
+                  <p
+                    className="order-3 w-full text-[15.5px] font-[780] uppercase leading-tight tracking-[0.05em] md:order-none md:flex-1 md:text-center"
+                    style={{ color: current.color }}
+                  >
+                    {current.claim}
+                  </p>
+
+                  {/* La acción sube a la cabecera y pasa a botón: abajo, tras
+                      una captura alta, quedaba fuera de vista. */}
+                  <a
+                    href={link.href}
+                    {...(link.external ? { target: "_blank", rel: "noopener" } : {})}
+                    className="shrink-0 rounded-lg px-4 py-2.5 text-[14px] font-semibold text-white transition-[transform,box-shadow] duration-200 hover:-translate-y-px hover:shadow-[0_8px_20px_color-mix(in_srgb,var(--marca)_35%,transparent)]"
+                    style={{ background: current.color }}
+                  >
+                    {link.label}
+                  </a>
                 </div>
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  width={shot.w}
-                  height={shot.h}
-                  className="h-auto w-full"
-                />
+                {/* Marco de proporción fija: las capturas vienen de sitios
+                    distintos y van de 2:1 a vertical. Sin normalizar, el bloque
+                    cambiaba de alto al pasar de pestaña y las más anchas se
+                    veían diminutas. Con object-contain nada se recorta. */}
+                <div
+                  className="flex aspect-[16/10] items-center justify-center p-3"
+                  style={{ background: `color-mix(in srgb, ${current.color} 4%, white)` }}
+                >
+                  <Image
+                    src={shot.src}
+                    alt={shot.alt}
+                    width={shot.w}
+                    height={shot.h}
+                    className="max-h-full w-auto max-w-full rounded-md object-contain shadow-[0_6px_20px_rgba(25,28,30,.10)]"
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
-
-            <ArrowLink href={link.href} external={link.external}>
-              {link.label}
-            </ArrowLink>
           </div>
         </div>
       </div>

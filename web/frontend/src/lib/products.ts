@@ -24,6 +24,11 @@ export type ProductMeta = {
   logo?: { src: string; w: number; h: number };
   icon: LucideIcon;
   /**
+   * Frase comercial que encabeza el panel. Se muestra en mayúsculas, así que
+   * conviene mantenerlas cortas: en mayúsculas una frase larga se lee peor.
+   */
+  claim: string;
+  /**
    * Color de marca del producto, el que usa al pasar el ratón.
    *
    * Captur, Factur y TMS tienen web propia: el valor está tomado de las
@@ -40,6 +45,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Producción · OEE",
     value: "Incidencias, paradas y mermas conectadas al OEE de cada línea.",
     icon: Gauge,
+    claim: "Tu planta al máximo rendimiento",
     color: "#1E798D",
   },
   {
@@ -48,6 +54,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Pharma · Fabricación guiada",
     value: "Recetas, validaciones y trazabilidad para ejecutar cada lote con control.",
     icon: FlaskConical,
+    claim: "Calidad garantizada en cada lote",
     color: "#1E798D",
   },
   {
@@ -58,6 +65,7 @@ export const PRODUCTS: ProductMeta[] = [
     site: "https://captur.soidemdt.com/",
     logo: { src: "/images/captur-logo.png", w: 240, h: 64 },
     icon: Clock,
+    claim: "Cada jornada, bajo control",
     color: "#FE5151",
   },
   {
@@ -68,6 +76,7 @@ export const PRODUCTS: ProductMeta[] = [
     site: "https://factur.soidemdt.com/",
     logo: { src: "/images/factur-logo.png", w: 202, h: 64 },
     icon: ScanText,
+    claim: "Tus facturas, datos en segundos",
     color: "#5B5BE0",
   },
   {
@@ -78,6 +87,7 @@ export const PRODUCTS: ProductMeta[] = [
     site: "https://tms.soidemdt.com/",
     logo: { src: "/images/tms-logo.png", w: 170, h: 64 },
     icon: Truck,
+    claim: "Todos tus envíos, un solo tracking",
     color: "#10B981",
   },
   {
@@ -86,6 +96,7 @@ export const PRODUCTS: ProductMeta[] = [
     tag: "Salud · Atención Primaria",
     value: "Toda la actividad de tus centros, en un solo visor.",
     icon: HeartPulse,
+    claim: "Toda tu red de centros, un visor",
     color: "#1E798D",
   },
 ];
