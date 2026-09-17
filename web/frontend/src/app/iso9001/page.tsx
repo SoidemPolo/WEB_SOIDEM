@@ -12,8 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/iso9001" },
 };
 
-const CERT_IMAGE =
-  "https://static.wixstatic.com/media/1e5c2d_f5a462d91e3d4a75b8d53f683dabe8d9~mv2.jpg/v1/fill/w_460,h_567,al_c,q_88/iso.jpg";
+const CERT_IMAGE = "/images/iso-9001-intertek.png";
 
 const PDF_ESP =
   "https://www.soidemdt.com/_files/ugd/1e5c2d_699d5520e9cc48deac2cdcb363237146.pdf";
@@ -55,10 +54,10 @@ export default function Iso9001Page() {
       <figure className="my-4 w-fit">
         <Image
           src={CERT_IMAGE}
-          alt="Certificado ISO 9001:2015 de SOIDEM Data Technologies"
-          width={460}
-          height={567}
-          className="h-auto w-full max-w-[340px] rounded-card border border-hair"
+          alt="Marca de certificación ISO 9001:2015 emitida por Intertek"
+          width={1788}
+          height={2232}
+          className="h-auto w-full max-w-[260px]"
         />
         <figcaption className="mt-3 text-[13px] text-stone">
           Certificado ISO 9001:2015

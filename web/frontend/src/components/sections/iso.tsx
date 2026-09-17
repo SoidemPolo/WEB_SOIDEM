@@ -5,8 +5,8 @@ import { BadgeCheck, FileSearch, RefreshCw, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
 
-const CERT_IMAGE =
-  "https://static.wixstatic.com/media/1e5c2d_f5a462d91e3d4a75b8d53f683dabe8d9~mv2.jpg/v1/fill/w_460,h_567,al_c,q_88/iso.jpg";
+/** Marca de certificación, con el fondo quitado y servida desde el repositorio. */
+const CERT_IMAGE = "/images/iso-9001-intertek.png";
 
 /** Lo que la certificación significa en el día a día, no en el papel. */
 const GARANTIAS = [
@@ -84,14 +84,19 @@ export function Iso() {
 
           <Reveal delay={0.1}>
             <figure className="mx-auto w-fit">
+              {/* La marca va sobre una placa clara: es gris oscuro y sobre el
+                  fondo de la sección no se leería. Recolorearla a blanco sería
+                  alterar una marca de certificación ajena. */}
               <div className="rounded-[20px] border border-white/12 bg-white/[0.06] p-3 backdrop-blur-sm">
-                <Image
-                  src={CERT_IMAGE}
-                  alt="Certificado ISO 9001:2015 de SOIDEM Data Technologies"
-                  width={460}
-                  height={567}
-                  className="h-auto w-full max-w-[320px] rounded-[14px] bg-white"
-                />
+                <div className="rounded-[14px] bg-white px-8 py-7">
+                  <Image
+                    src={CERT_IMAGE}
+                    alt="Marca de certificación ISO 9001:2015 emitida por Intertek"
+                    width={1788}
+                    height={2232}
+                    className="h-auto w-full max-w-[250px]"
+                  />
+                </div>
               </div>
               <figcaption className="mt-3 text-center text-[12.5px] text-white/45">
                 Certificado ISO 9001:2015 · Intertek
