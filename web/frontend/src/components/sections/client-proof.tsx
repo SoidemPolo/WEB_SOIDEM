@@ -1,11 +1,10 @@
-import Image from "next/image";
-
+import { LogoCarousel, type Logo } from "@/components/logo-carousel";
 import { Reveal } from "@/components/ui/reveal";
 
 const W = "https://static.wixstatic.com/media";
 
 /** Logos de clientes, con las mismas URL y dimensiones que la web actual. */
-const LOGOS = [
+const LOGOS: Logo[] = [
   { alt: "Texia", w: 155, h: 59, src: `${W}/1e5c2d_2bf84afa1a074cc999a08033a5b2d289~mv2.png/v1/fill/w_155,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/texia.png` },
   { alt: "Vitae", w: 146, h: 69, src: `${W}/1e5c2d_9cc5b290ee9e43acac6fde4f45cc3a2f~mv2.png/v1/fill/w_146,h_69,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vitae.png` },
   { alt: "Cliente de SOIDEM", w: 134, h: 48, src: `${W}/1e5c2d_62d61161ebd24d07bade375516c30ef4~mv2.png/v1/fill/w_134,h_48,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1e5c2d_62d61161ebd24d07bade375516c30ef4~mv2.png` },
@@ -52,24 +51,8 @@ export function ClientProof() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div
-            aria-label="Empresas que confían en SOIDEM"
-            className="logo-grid mt-[34px] overflow-hidden rounded-[14px] border border-white/15 bg-white/15"
-          >
-            {LOGOS.map((logo, i) => (
-              <div
-                key={`${logo.alt}-${i}`}
-                className="logo-cell grid min-h-[70px] place-items-center bg-white px-3 py-[15px] md:min-h-[74px]"
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={logo.w}
-                  height={logo.h}
-                  className="h-auto max-h-[30px] w-auto max-w-[84%] object-contain opacity-[0.72] grayscale transition duration-200 hover:scale-[1.03] hover:opacity-100 hover:grayscale-0"
-                />
-              </div>
-            ))}
+          <div className="mt-[34px]">
+            <LogoCarousel logos={LOGOS} label="Empresas que confían en SOIDEM" />
           </div>
         </Reveal>
       </div>

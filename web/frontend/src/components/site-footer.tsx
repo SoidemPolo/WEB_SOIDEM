@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { CookiePreferencesLink } from "@/components/cookie-preferences-link";
+
 const WEB = [
   { href: "/#que-resolvemos", label: "Qué resolvemos" },
   { href: "/#productos", label: "Productos" },
@@ -12,6 +14,8 @@ const LEGAL = [
   { href: "/calidad-interna", label: "Política de calidad" },
   { href: "/iso9001", label: "ISO 9001" },
 ];
+
+const ACCESO = [{ href: "/login", label: "Acceso de clientes" }];
 
 export function SiteFooter() {
   return (
@@ -33,8 +37,8 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <FooterColumn title="Web" items={WEB} />
-          <FooterColumn title="Legal" items={LEGAL} />
+          <FooterColumn title="Web" items={[...WEB, ...ACCESO]} />
+          <FooterColumn title="Legal" items={LEGAL} extra={<CookiePreferencesLink />} />
 
           <div>
             <h4 className="mb-4 text-[13px] font-semibold uppercase tracking-[0.12em] text-ink">
@@ -87,9 +91,11 @@ export function SiteFooter() {
 function FooterColumn({
   title,
   items,
+  extra,
 }: {
   title: string;
   items: { href: string; label: string }[];
+  extra?: React.ReactNode;
 }) {
   return (
     <div>
@@ -104,6 +110,7 @@ function FooterColumn({
             </Link>
           </li>
         ))}
+        {extra && <li>{extra}</li>}
       </ul>
     </div>
   );

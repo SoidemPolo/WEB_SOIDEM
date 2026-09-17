@@ -489,31 +489,41 @@
     }
   }
 
-  /* Mosaico de logos: celdas blancas separadas por la rejilla oscura */
-  .logo-grid {
-    display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
+  /* Carrusel de logos: celdas blancas separadas por la rejilla oscura.
+     Pagina con scroll-snap, de modo que arrastrar con el dedo y la rueda
+     horizontal funcionan sin JavaScript; los puntos solo saltan de pagina. */
+  .logo-track {
+    display: flex;
     gap: 1px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
+  }
+  .logo-track::-webkit-scrollbar {
+    display: none;
+  }
+  .logo-track:focus-visible {
+    outline: 2.5px solid var(--color-teal);
+    outline-offset: 3px;
+  }
+  /* Nueve por pagina: con 18 logos salen dos paginas exactas */
+  .logo-cell {
+    flex: 0 0 calc((100% - 8px) / 9);
+    min-height: 74px;
+    scroll-snap-align: start;
   }
   @media (max-width: 1020px) {
-    .logo-grid {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+    .logo-cell {
+      flex-basis: calc((100% - 5px) / 6);
     }
   }
   @media (max-width: 760px) {
-    .logo-grid {
-      display: flex;
-      overflow-x: auto;
-      border-radius: 12px;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
-    }
-    .logo-grid::-webkit-scrollbar {
-      height: 0;
-    }
     .logo-cell {
-      min-width: 132px;
-      scroll-snap-align: start;
+      flex-basis: calc((100% - 2px) / 3);
+      min-height: 70px;
     }
   }
 }

@@ -3,17 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { ProductsMenu, ProductsMenuMobile } from "@/components/products-menu";
 import { cn } from "@/lib/utils";
 
+/** Enlaces simples. "Productos" va aparte: es un desplegable. */
 const NAV = [
   { href: "/#que-resolvemos", label: "Qué resolvemos" },
-  { href: "/#productos", label: "Productos" },
   { href: "/#caso", label: "Casos" },
   { href: "/#calidad", label: "Calidad" },
 ];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-hair bg-paper/90 backdrop-blur-[14px]">
@@ -29,30 +31,33 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Principal">
-          <ul
-            className={cn(
-              "items-center gap-[30px] max-md:absolute max-md:inset-x-0 max-md:top-16 max-md:flex-col max-md:gap-0 max-md:border-b max-md:border-hair max-md:bg-paper max-md:py-2",
-              open ? "max-md:flex" : "max-md:hidden",
-              "flex",
-            )}
-          >
-            {NAV.map((item) => (
-              <li key={item.href} className="max-md:w-full">
+        <nav aria-label="Principal" className="max-md:hidden">
+          <ul className="flex items-center gap-[30px]">
+            <li>
+              <Link
+                href="/#que-resolvemos"
+                className="text-[15px] font-medium text-[#3d4347] transition-colors hover:text-teal"
+              >
+                Qué resolvemos
+              </Link>
+            </li>
+            <li>
+              <ProductsMenu />
+            </li>
+            {NAV.slice(1).map((item) => (
+              <li key={item.href}>
                 <Link
                   href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-[15px] font-medium text-[#3d4347] transition-colors hover:text-teal max-md:block max-md:px-7 max-md:py-3"
+                  className="text-[15px] font-medium text-[#3d4347] transition-colors hover:text-teal"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
-            <li className="max-md:w-full max-md:px-7 max-md:py-3">
+            <li>
               <Link
                 href="/contacto"
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-teal px-5 py-2.5 font-semibold text-white transition-colors hover:bg-teal-dark max-md:inline-block"
+                className="rounded-lg bg-teal px-5 py-2.5 font-semibold text-white transition-colors hover:bg-teal-dark"
               >
                 Cuéntanos el problema
               </Link>
@@ -72,6 +77,50 @@ export function SiteHeader() {
           ))}
         </button>
       </div>
+
+      {/* Menú móvil: los productos se listan desplegados, sin un segundo nivel */}
+      <nav
+        aria-label="Principal"
+        className={cn(
+          "absolute inset-x-0 top-16 border-b border-hair bg-paper py-2 md:hidden",
+          open ? "block" : "hidden",
+        )}
+      >
+        <ul className="flex flex-col">
+          <li>
+            <Link
+              href="/#que-resolvemos"
+              onClick={close}
+              className="block px-7 py-3 text-[15px] font-medium text-[#3d4347]"
+            >
+              Qué resolvemos
+            </Link>
+          </li>
+          <li>
+            <ProductsMenuMobile onNavigate={close} />
+          </li>
+          {NAV.slice(1).map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                onClick={close}
+                className="block px-7 py-3 text-[15px] font-medium text-[#3d4347]"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+          <li className="px-7 py-3">
+            <Link
+              href="/contacto"
+              onClick={close}
+              className="inline-block rounded-lg bg-teal px-5 py-2.5 font-semibold text-white"
+            >
+              Cuéntanos el problema
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }

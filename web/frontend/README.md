@@ -83,8 +83,52 @@ Se mantienen las URL y las anclas de la web actual, para no romper enlaces ni po
 | `/iso9001` | `legacy/iso9001/index.html` |
 | `/calidad-interna` | `legacy/calidad-interna/index.html` |
 | `/privacidad` | `legacy/privacidad/index.html` |
+| `/login` | nueva: acceso al área de clientes (`noindex`) |
+
+El desplegable de **Productos** de la cabecera enlaza a `/#producto-<id>`. La
+sección de productos lee ese hash y abre el panel correspondiente, así que el
+menú lleva al producto, no solo a la sección. La lista vive en
+[`src/lib/products.ts`](src/lib/products.ts), compartida por cabecera y sección
+para que no se desincronicen.
 
 Anclas de la landing: `#que-resolvemos`, `#cambio`, `#caso`, `#productos`, `#tecnologias`, `#calidad`, `#hablemos`.
+
+## Cookies y analítica
+
+El aviso de cookies está en [`src/components/cookie-consent.tsx`](src/components/cookie-consent.tsx)
+y la lógica en [`src/lib/consent.ts`](src/lib/consent.ts).
+
+Cuatro categorías: **esenciales** (siempre activas, no desactivables),
+**analítica**, **ubicación aproximada** y **marketing**. Las tres últimas
+arrancan **desactivadas** y solo se activan con un sí explícito.
+
+- Rechazar cuesta lo mismo que aceptar: los dos son un botón del primer nivel.
+- La decisión se guarda en `localStorage` y en la cookie `soidem_consent`
+  (`v1.a0.u0.m0`), para que el servidor pueda comprobarla sin ejecutar JS.
+- Caduca a los 6 meses y se vuelve a preguntar. Subir `CONSENT_VERSION` fuerza
+  volver a preguntar a todo el mundo.
+- Se puede cambiar desde «Preferencias de cookies», en el pie.
+
+La analítica ([`src/components/analytics.tsx`](src/components/analytics.tsx))
+**no carga nada** hasta que se acepta la categoría «analítica», y tampoco si
+falta `NEXT_PUBLIC_GA_ID`. Para cambiar de proveedor (Plausible, Matomo, Umami)
+basta sustituir los dos `<Script>`: la condición del consentimiento ya está
+resuelta.
+
+> Las cookies no esenciales **no vienen premarcadas**, y eso es deliberado: el
+> RGPD las exige opt-in y la web opera desde Barcelona. Premarcarlas sería lo
+> que multa la AEPD.
+
+## Acceso de clientes
+
+`/login` tiene el formulario, pero **no hay autenticación**: el frontend recoge
+las credenciales y las envía a `POST /auth/login` del backend, que todavía no
+existe. No se simula ninguna sesión, porque una sesión falsa en el cliente
+parece seguridad sin serlo.
+
+Cuando se implemente el backend: la sesión debe viajar en una **cookie
+httpOnly** que ponga el servidor, nunca un token en `localStorage`. El
+formulario ya envía con `credentials: "include"`.
 
 ## Formulario de contacto
 
@@ -93,6 +137,7 @@ El frontend **no envía correos ni conoce credenciales**. `contact-form.tsx` val
 ```env
 # .env.local
 NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_GA_ID=          # vacío = sin analítica
 ```
 
 Sin esa variable el formulario avisa de que todavía no está conectado, en lugar de fallar en silencio. **Nunca poner aquí claves de Azure**: todo lo que lleva el prefijo `NEXT_PUBLIC_` acaba en el navegador.
@@ -115,4 +160,7 @@ Las dependencias que esos componentes esperan (`cn()`, cva, tailwind-merge, radi
 - [ ] Sustituir la imagen de Open Graph: hoy se usa el certificado ISO como provisional. Recomendado 1200x630 con logo y claim.
 - [ ] `favicon.ico` en `public/`.
 - [ ] Los logos de clientes y el certificado se sirven desde `static.wixstatic.com`. Conviene traerlos al repositorio.
-- [ ] La pieza visual del hero y el panel Antes/Después portan el contenido y la idea del original, pero no sus animaciones más elaboradas (líneas de datos animadas, divisor arrastrable). Recuperarlas con Motion o React Bits si se quieren.
+- [ ] Implementar `POST /auth/login` y el área de cliente en el backend. Hoy
+      `/login` avisa de que no está conectado.
+- [ ] Revisar la política de privacidad para que mencione las cuatro categorías
+      de cookies y el plazo de 6 meses.
