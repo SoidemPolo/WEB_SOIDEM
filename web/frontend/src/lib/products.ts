@@ -32,8 +32,13 @@ export type ProductMeta = {
    * Color de marca del producto, el que usa al pasar el ratón.
    *
    * Captur, Factur y TMS tienen web propia: el valor está tomado de las
-   * variables CSS de su tema, no aproximado a ojo. MESOEE, EBR y +CAPFA no
-   * tienen marca aparte, son SOIDEM, así que llevan el teal de la casa.
+   * variables CSS de su tema, no aproximado a ojo.
+   *
+   * MESOEE, EBR y +CAPFA no tienen marca aparte, así que se les asigna uno
+   * para poder distinguirlos: MESOEE se queda con el teal de la casa por ser
+   * el producto insignia, EBR toma el naranja que usa su propio panel y
+   * +CAPFA un violeta. Los seis tonos están repartidos por el círculo
+   * cromático para que ninguno se confunda con otro.
    */
   color: string;
 };
@@ -55,7 +60,7 @@ export const PRODUCTS: ProductMeta[] = [
     value: "Recetas, validaciones y trazabilidad para ejecutar cada lote con control.",
     icon: FlaskConical,
     claim: "Calidad garantizada en cada lote",
-    color: "#1E798D",
+    color: "#D86018",
   },
   {
     id: "captur",
@@ -97,7 +102,7 @@ export const PRODUCTS: ProductMeta[] = [
     value: "Toda la actividad de tus centros, en un solo visor.",
     icon: HeartPulse,
     claim: "Toda tu red de centros, un visor",
-    color: "#1E798D",
+    color: "#7E22CE",
   },
 ];
 
