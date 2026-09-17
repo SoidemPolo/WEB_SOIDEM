@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
@@ -21,28 +20,95 @@ const PAIRS = [
   },
 ];
 
-const TIMELINE = [
-  { time: "07:00", who: "Sistema", what: "Informe diario enviado a dirección.", color: "bg-info" },
-  { time: "08:32", who: "Sistema", what: "Albarán procesado e integrado con el ERP.", color: "bg-info" },
-  { time: "08:41", who: "Mantenimiento", what: "Revisión de báscula L2 registrada y planificada.", color: "bg-ok" },
-  { time: "09:12", who: "Sistema", what: "Desviación de temperatura detectada en L2.", color: "bg-warn" },
-  { time: "09:13", who: "Sistema", what: "Aviso enviado y tarea asignada a mantenimiento.", color: "bg-info" },
-  { time: "09:18", who: "Responsable de turno", what: "«Consigna ajustada. Línea estable.»", color: "bg-ok" },
-  { time: "09:19", who: "Sistema", what: "Incidencia cerrada y vinculada al lote activo.", color: "bg-ok" },
-];
-
 const LANES = [
-  { id: "L1", status: "Ritmo actual · 1.240 uds/h" },
-  { id: "L2", status: "Incidencia resuelta · línea estable" },
-  { id: "L3", status: "En producción · sin incidencias" },
-  { id: "L4", status: "Control de calidad registrado" },
+  { id: "L1", status: "Ritmo actual · 1.240 uds/h", delay: "0s" },
+  { id: "L2", status: "Incidencia resuelta · línea estable", delay: ".6s" },
+  { id: "L3", status: "En producción · sin incidencias", delay: "1.1s" },
+  { id: "L4", status: "Control de calidad registrado", delay: "1.6s" },
 ];
 
+const INCIDENTS = [
+  { time: "07:00", who: "Sistema", what: "Informe diario enviado a dirección.", dot: "#37C0DB" },
+  { time: "08:32", who: "Sistema", what: "Albarán procesado e integrado con el ERP.", dot: "#37C0DB" },
+  { time: "08:41", who: "Mantenimiento", what: "Revisión de báscula L2 registrada y planificada.", dot: "#4ADE80" },
+  { time: "09:12", who: "Sistema", what: "Desviación de temperatura detectada en L2.", dot: "#FBBF24" },
+  { time: "09:13", who: "Sistema", what: "Aviso enviado y tarea asignada a mantenimiento.", dot: "#37C0DB" },
+  { time: "09:18", who: "Responsable de turno", what: "«Consigna ajustada. Línea estable.»", dot: "#4ADE80" },
+  { time: "09:19", who: "Sistema", what: "Incidencia cerrada y vinculada al lote activo.", dot: "#4ADE80" },
+];
+
+const OEE_TARGET = 87;
+const COUNTER_MS = 1500;
+const WIGGLE_MS = 1700;
+
+/**
+ * Comparador Antes/Después: el panel "Después" se recorta con clip-path y el
+ * divisor lo controla un input range invisible que ocupa toda la caja, igual que
+ * en la web actual. Así funciona con ratón, con dedo y con las flechas del teclado
+ * sin escribir gestos a mano.
+ */
 export function BeforeAfter() {
-  const [view, setView] = useState<"antes" | "despues">("antes");
+  const compareRef = useRef<HTMLDivElement>(null);
+  const wiggleActive = useRef(true);
+
+  const [x, setX] = useState(50);
+  const [oee, setOee] = useState(0);
+  const [entered, setEntered] = useState(false);
+
+  const stopWiggle = useCallback(() => {
+    wiggleActive.current = false;
+  }, []);
+
+  useEffect(() => {
+    const node = compareRef.current;
+    if (!node) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        setEntered(true);
+
+        // El aro del OEE cuenta hasta 87 con desaceleración cúbica.
+        if (reduced) {
+          setOee(OEE_TARGET);
+        } else {
+          const start = performance.now();
+          const step = (now: number) => {
+            const p = Math.min((now - start) / COUNTER_MS, 1);
+            setOee(Math.round(OEE_TARGET * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+
+        // Vaivén de invitación: enseña que el divisor se puede arrastrar.
+        if (!reduced && wiggleActive.current) {
+          const start = performance.now();
+          const step = (now: number) => {
+            const p = (now - start) / WIGGLE_MS;
+            if (p >= 1 || !wiggleActive.current) {
+              setX(50);
+              return;
+            }
+            setX(50 + Math.sin(p * Math.PI * 2) * 14 * (1 - p));
+            requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="cambio" className="py-section">
+    <section id="cambio" className="ba">
       <div className="wrap">
         <Reveal>
           <p className="kicker">Antes y después</p>
@@ -50,89 +116,114 @@ export function BeforeAfter() {
             De información dispersa a una operación conectada.
           </h2>
           <p className="lead">
-            Cambia entre las dos vistas para comparar cómo se trabaja cuando
-            máquinas, sistemas y personas comparten la misma información.
+            Desliza para comparar cómo cambia la forma de trabajar cuando máquinas,
+            sistemas y personas comparten la misma información.
           </p>
         </Reveal>
+      </div>
 
-        <div
-          role="tablist"
-          aria-label="Comparar antes y después"
-          className="mt-9 inline-flex rounded-full border border-hair bg-white p-1"
+      {/* En pantallas pequeñas el arrastre es incómodo: se sustituye por dos botones. */}
+      <div className="cswitch" role="group" aria-label="Ver el antes o el después">
+        <button
+          type="button"
+          className={cn("csw", x >= 50 && "on")}
+          aria-pressed={x >= 50}
+          onClick={() => {
+            stopWiggle();
+            setX(100);
+          }}
         >
-          {(["antes", "despues"] as const).map((key) => (
-            <button
-              key={key}
-              type="button"
-              role="tab"
-              aria-selected={view === key}
-              onClick={() => setView(key)}
-              className={cn(
-                "rounded-full px-6 py-2.5 text-[15px] font-semibold transition-colors",
-                view === key ? "bg-teal text-white" : "text-stone hover:text-ink",
-              )}
-            >
-              {key === "antes" ? "Antes" : "Después"}
-            </button>
-          ))}
+          Antes
+        </button>
+        <button
+          type="button"
+          className={cn("csw", x < 50 && "on")}
+          aria-pressed={x < 50}
+          onClick={() => {
+            stopWiggle();
+            setX(0);
+          }}
+        >
+          Después
+        </button>
+      </div>
+
+      <div className="compare-card">
+        <div
+          ref={compareRef}
+          className={cn("compare", entered && "on")}
+          data-vista={x >= 50 ? "antes" : "despues"}
+          style={{ "--x": `${x}%` } as React.CSSProperties}
+        >
+          <p className="sr-only">
+            Comparación ilustrativa entre una operación con información fragmentada y
+            la misma operación con sistemas conectados.
+          </p>
+
+          <ChaosSide />
+          <ClaritySide x={x} oee={oee} />
+
+          <span className="lbl a">Antes</span>
+          <span className="lbl b">Después</span>
+          <div className="bar" />
+          <div className="knob">⇄</div>
+
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={x}
+            aria-label="Comparar antes y después"
+            onChange={(event) => {
+              stopWiggle();
+              setX(Number(event.target.value));
+            }}
+          />
         </div>
 
-        <div className="mt-6 overflow-hidden rounded-card border border-hair">
-          <AnimatePresence mode="wait">
-            {view === "antes" ? (
-              <motion.div
-                key="antes"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <ChaosPanel />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="despues"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <ClarityPanel />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <p className="mt-3 text-[13px] text-stone">
+        <p className="ilus">
           Escena ilustrativa basada en situaciones habituales de una operación
           industrial.
         </p>
 
         <Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="pairs">
             {PAIRS.map((pair) => (
-              <p key={pair.before} className="flex flex-col gap-2">
-                <s className="text-[15px] text-stone">{pair.before}</s>
-                <b className="text-[16px] font-[650] text-ink">{pair.after}</b>
+              <p key={pair.before}>
+                <s>{pair.before}</s>
+                <b>{pair.after}</b>
               </p>
             ))}
           </div>
         </Reveal>
       </div>
+
+      <div className="wrap">
+        <p className="hint">
+          Arrastra el divisor para comparar. También funciona con las flechas del
+          teclado.
+        </p>
+      </div>
     </section>
   );
 }
 
-/** Antes: información fragmentada entre Excel, correo y notas sueltas. */
-function ChaosPanel() {
+/** Antes: información repartida entre Excel, correo, chats y notas sueltas. */
+function ChaosSide() {
   return (
-    <div className="grid gap-4 bg-[#efeee9] p-6 md:grid-cols-2">
-      <Window title="produccion_v3_FINAL(2).xlsx — sin guardar">
-        <table className="w-full border-collapse text-[12.5px]">
+    <div aria-hidden className="side chaos">
+      <div className="win xl">
+        <div className="wbar">
+          <i className="r" />
+          <i className="y" />
+          <i className="g" />
+          produccion_v3_FINAL(2).xlsx — sin guardar
+        </div>
+        <table>
           <tbody>
-            <tr className="text-stone">
+            <tr>
               {["Línea", "Turno", "Uds.", "Merma"].map((h) => (
-                <td key={h} className="border-b border-hair py-1.5 font-semibold">
+                <td key={h} className="hh">
                   {h}
                 </td>
               ))}
@@ -145,13 +236,7 @@ function ChaosPanel() {
             ].map((row) => (
               <tr key={row[0]}>
                 {row.map((cell, i) => (
-                  <td
-                    key={i}
-                    className={cn(
-                      "border-b border-hair py-1.5",
-                      cell.startsWith("#") && "font-semibold text-danger",
-                    )}
-                  >
+                  <td key={i} className={cell.startsWith("#") ? "err" : undefined}>
                     {cell}
                   </td>
                 ))}
@@ -159,225 +244,280 @@ function ChaosPanel() {
             ))}
           </tbody>
         </table>
-      </Window>
+      </div>
 
-      <div className="flex flex-col gap-4">
-        <Window title="RE: RE: RE: ¿datos de ayer?">
-          <p className="text-[13px] text-stone">
-            <b className="block text-ink">Dirección · 9:02</b>
-            ¿Alguien me pasa el cierre de ayer? Lo necesito para el comité de las
-            10:00.
-          </p>
-        </Window>
+      <div className="win mail">
+        <div className="wbar">
+          <i className="r" />
+          <i className="y" />
+          <i className="g" />
+          RE: RE: RE: ¿datos de ayer?
+        </div>
+        <div className="b">
+          <b>Dirección · 9:02</b>¿Alguien me pasa el cierre de ayer? Lo necesito para
+          el comité de las 10:00.
+        </div>
+      </div>
 
-        <Window title="albaranes_enero — pendientes">
-          <b className="text-[13px]">47 albaranes por picar a mano</b>
-          <div className="mt-2 space-y-1 text-[12.5px] text-stone">
-            {[
-              ["ALB-2201 · Prov. Metalúrgica", "sin picar"],
-              ["ALB-2202 · Química Norte", "sin picar"],
-              ["ALB-2203 · ilegible (escaneo)", "¿?"],
-            ].map(([ref, state]) => (
-              <p key={ref} className="flex justify-between gap-3">
-                <span>{ref}</span>
-                <em className="not-italic text-danger">{state}</em>
-              </p>
-            ))}
-          </div>
-        </Window>
+      <div className="chatw">
+        <p className="bub">¿Ha salido ya el lote 2417?</p>
+        <p className="bub me">Pregunta a Juan, él lleva ese excel</p>
+        <p className="bub">Juan está de vacaciones hasta el lunes…</p>
+      </div>
 
-        <div className="flex flex-wrap gap-2">
+      <span className="postit" style={{ top: "52%", left: "42%", "--rot": "-4deg" } as React.CSSProperties}>
+        Revisar báscula L2 (¿el lunes?)
+      </span>
+      <span className="postit p2" style={{ top: "4%", right: "3%", "--rot": "3deg" } as React.CSSProperties}>
+        Informe del comité → hacerlo el domingo
+      </span>
+
+      <p className="toast" style={{ bottom: "16%", right: "4%" }}>
+        <span>⚠</span>
+        <span>
+          <b>Parada en Línea 2</b>detectada demasiado tarde
+        </span>
+      </p>
+
+      <span className="nbadge" style={{ top: "9%", left: "41.5%" }}>
+        23
+      </span>
+      <span className="clockx" style={{ bottom: "4%", left: "38%", "--rot": "-1.5deg" } as React.CSSProperties}>
+        Domingo · <b>21:47</b> · haciendo el informe
+      </span>
+
+      <div className="win alb">
+        <div className="wbar">
+          <i className="r" />
+          <i className="y" />
+          <i className="g" />
+          albaranes_enero — pendientes
+        </div>
+        <div className="b">
+          <b>47 albaranes por picar a mano</b>
           {[
-            "Revisar báscula L2 (¿el lunes?)",
-            "Informe del comité → hacerlo el domingo",
-            "OEE del turno = ¿?",
-            "Domingo · 21:47 · haciendo el informe",
-          ].map((note) => (
-            <span
-              key={note}
-              className="rounded-sm bg-[#FFF3B0] px-2.5 py-1.5 text-[12px] text-ink shadow-[0_2px_8px_rgba(25,28,30,.12)]"
-            >
-              {note}
-            </span>
+            ["ALB-2201 · Prov. Metalúrgica", "sin picar"],
+            ["ALB-2202 · Química Norte", "sin picar"],
+            ["ALB-2203 · ilegible (escaneo)", "¿?"],
+          ].map(([ref, state]) => (
+            <p key={ref} className="rowx">
+              <span>{ref}</span>
+              <em>{state}</em>
+            </p>
           ))}
         </div>
-
-        <p className="flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-[12.5px] text-stone shadow-sm">
-          <span className="text-danger">⚠</span>
-          <span>
-            <b className="block text-ink">Parada en Línea 2</b>
-            detectada demasiado tarde
-          </span>
-        </p>
       </div>
+
+      <span className="callsx" style={{ bottom: "6%", right: "26%", "--rot": "1.5deg" } as React.CSSProperties}>
+        <i />
+        Mantenimiento · 5 llamadas perdidas
+      </span>
+      <span className="postit" style={{ top: "33%", left: "31%", "--rot": "6deg" } as React.CSSProperties}>
+        ¿Cuánta merma llevamos? Preguntar en almacén
+      </span>
+      <span className="clockx" style={{ top: "58%", right: "29%", "--rot": "-3deg" } as React.CSSProperties}>
+        OEE del turno = <b>¿?</b>
+      </span>
+      <span className="clockx" style={{ top: "71%", right: "4%", "--rot": "2deg" } as React.CSSProperties}>
+        La factura de luz sube · ¿qué línea? <b>¿?</b>
+      </span>
     </div>
   );
 }
 
-/** Después: un único panel conectado donde todo tiene contexto y queda registrado. */
-function ClarityPanel() {
+/** Después: un único panel conectado. Se recorta por la izquierda según el divisor. */
+function ClaritySide({ x, oee }: { x: number; oee: number }) {
   return (
-    <div className="bg-deep p-6 text-white">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
-        <span className="text-[15px] font-semibold">Planta · ahora mismo</span>
-        <span className="flex items-center gap-2 text-[12.5px] text-white/70">
-          <i className="size-1.5 animate-pulse rounded-full bg-ok" />
-          En tiempo real · 09:41
+    <div aria-hidden className="side clar" style={{ clipPath: `inset(0 0 0 ${x}%)` }}>
+      <div className="clar-chrome">
+        <i className="r" />
+        <i className="y" />
+        <i className="g" />
+        <span>app.soidemdt.com/planta · sesion segura</span>
+      </div>
+
+      <div className="hdr2">
+        <span className="t2">Planta · ahora mismo</span>
+        <span className="live">
+          <i /> En tiempo real · <span className="hora">09:41</span>
         </span>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card title="Líneas en marcha" className="lg:col-span-2">
-          <p className="mb-3 flex flex-wrap justify-between gap-2 text-[12.5px] text-white/60">
+      <div className="cg">
+        <div className="ct lanes">
+          <p className="k">Líneas en marcha</p>
+          <p className="lane-total">
             <span>Turno de mañana · 4 líneas en producción</span>
-            <b className="text-white">3.410 uds acumuladas</b>
+            <b>3.410 uds acumuladas</b>
           </p>
-          <div className="space-y-2">
-            {LANES.map((lane) => (
-              <div key={lane.id} className="flex items-center gap-3 text-[12.5px]">
-                <b className="w-6 shrink-0">{lane.id}</b>
-                <span className="h-1 flex-1 overflow-hidden rounded-full bg-white/15">
-                  <i className="block h-full w-2/3 rounded-full bg-teal" />
+          {LANES.map((lane) => (
+            <div key={lane.id} className="lane">
+              <b>{lane.id}</b>
+              <span className="track">
+                <i className="fdot" style={{ animationDelay: lane.delay }} />
+              </span>
+              <span className="st2">{lane.status}</span>
+            </div>
+          ))}
+
+          <p className="k" style={{ margin: "14px 0 0" }}>
+            Incidencias y comentarios
+          </p>
+          <div className="incs">
+            {INCIDENTS.map((item) => (
+              <p key={item.time} className="inc">
+                <i className="id2" style={{ background: item.dot }} />
+                <span>
+                  <em>{item.time}</em> · <b>{item.who}</b> — {item.what}
                 </span>
-                <span className="text-white/60">{lane.status}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className="ct">
+          <p className="k">OEE · en vivo</p>
+          <div className="ringt">
+            <svg className="ringsvg" fill="none" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="ringgrad" x1="0" x2="1" y1="0" y2="1">
+                  <stop stopColor="#1E798D" />
+                  <stop offset="1" stopColor="#5AC8FA" />
+                </linearGradient>
+              </defs>
+              <circle className="ringbg" cx="50" cy="50" r="44" strokeWidth="9" />
+              <circle
+                className="ringfg"
+                cx="50"
+                cy="50"
+                r="44"
+                strokeWidth="9"
+                transform="rotate(-90 50 50)"
+              />
+            </svg>
+            <p className="ringlbl">
+              {oee},0%
+              <small>seguimiento en tiempo real</small>
+            </p>
+          </div>
+          <div className="obars">
+            {(
+              [
+                ["Disponibilidad", "92%", "92"],
+                ["Rendimiento", "95%", "95"],
+                ["Calidad", "99.5%", "99,5"],
+              ] as const
+            ).map(([label, width, value]) => (
+              <p key={label} className="ob">
+                <span>{label}</span>
+                <i style={{ "--w": width } as React.CSSProperties} />
+                <em>{value}</em>
+              </p>
+            ))}
+          </div>
+          <p className="tfoot">
+            Calculado automáticamente a partir de producción y calidad.{" "}
+            <b>Actualizado durante el turno.</b>
+          </p>
+        </div>
+
+        <div className="ct">
+          <p className="k">Consumo energético</p>
+          <p className="bignum">
+            Consumo estable
+            <small>disponible por línea y franja horaria</small>
+          </p>
+          <div className="obars">
+            {(["78%", "92%", "57%", "50%"] as const).map((width, i) => (
+              <p key={width} className="ob">
+                <span>Línea {i + 1}</span>
+                <i style={{ "--w": width } as React.CSSProperties} />
+                <em />
+              </p>
+            ))}
+          </div>
+          <p className="tfoot">
+            Lectura conectada a la operación. <b>Distribución relativa por línea.</b>
+          </p>
+        </div>
+
+        <div className="ct">
+          <p className="k">Centro de alertas</p>
+          <p className="bignum">
+            3 <span className="good2">todas atendidas</span>
+            <small>hoy</small>
+          </p>
+          {(
+            [
+              ["Críticas", "0", "#F87171"],
+              ["Medias · temp. L2", "1", "#FBBF24"],
+              ["Informativas", "2", "#37C0DB"],
+            ] as const
+          ).map(([label, count, color]) => (
+            <p key={label} className="arow">
+              <span className="sev">
+                <i style={{ background: color }} />
+                {label}
+              </span>
+              <em>{count}</em>
+            </p>
+          ))}
+          <p className="tfoot">
+            Aviso por app, correo o Teams. <b>Asignación y registro automáticos.</b>
+          </p>
+        </div>
+
+        <div className="ct trace">
+          <p className="k">Trazabilidad · lote activo</p>
+          <div className="tline">
+            {(
+              [
+                ["Orden iniciada", "06:12", false],
+                ["Producción", "07:40", false],
+                ["Calidad", "09:05", false],
+                ["Lote actualizado", "09:19", true],
+              ] as const
+            ).map(([step, time, now]) => (
+              <div key={step} className={cn("tstep", now && "now")}>
+                <i className="pt" />
+                <span>
+                  <b>{step}</b>
+                  {time}
+                </span>
               </div>
             ))}
           </div>
-
-          <p className="mb-2 mt-5 text-[11px] uppercase tracking-[0.12em] text-white/50">
-            Incidencias y comentarios
+          <p className="tans">
+            Registros de proceso y calidad{" "}
+            <b>actualizados y consultables al momento</b>.
           </p>
-          <div className="space-y-1.5">
-            {TIMELINE.map((entry) => (
-              <p key={entry.time} className="flex items-start gap-2 text-[12.5px]">
-                <i className={cn("mt-1.5 size-1.5 shrink-0 rounded-full", entry.color)} />
-                <span className="text-white/70">
-                  <em className="not-italic text-white/50">{entry.time}</em> ·{" "}
-                  <b className="text-white">{entry.who}</b> — {entry.what}
-                </span>
+        </div>
+
+        <div className="kpis">
+          {(
+            [
+              ["Órdenes", "Según planificación", "good"],
+              ["Incidencias críticas", "Ninguna abierta", "good"],
+              ["Calidad y merma", "Por línea y lote", "info"],
+              ["Información", "Disponible para el equipo autorizado", "info"],
+            ] as const
+          ).map(([label, value, tone]) => (
+            <div key={label} className="kpi2">
+              <p className="kk">{label}</p>
+              <p className="kv">
+                <span className={tone}>{value}</span>
               </p>
-            ))}
-          </div>
-        </Card>
-
-        <div className="space-y-4">
-          <Card title="OEE · en vivo">
-            <p className="text-[30px] font-[650] leading-none">
-              87,0%
-              <small className="mt-1 block text-[11.5px] font-normal text-white/50">
-                seguimiento en tiempo real
-              </small>
-            </p>
-            <div className="mt-4 space-y-2">
-              {(
-                [
-                  ["Disponibilidad", 92],
-                  ["Rendimiento", 95],
-                  ["Calidad", 99.5],
-                ] as const
-              ).map(([label, value]) => (
-                <p key={label} className="flex items-center gap-2 text-[12px]">
-                  <span className="w-28 shrink-0 text-white/60">{label}</span>
-                  <i className="h-1 flex-1 overflow-hidden rounded-full bg-white/15">
-                    <i
-                      className="block h-full rounded-full bg-teal"
-                      style={{ width: `${value}%` }}
-                    />
-                  </i>
-                  <em className="not-italic text-white/70">{value}</em>
-                </p>
-              ))}
             </div>
-          </Card>
-
-          <Card title="Centro de alertas">
-            <p className="text-[24px] font-[650] leading-none">
-              3 <span className="text-[12px] font-normal text-ok">todas atendidas</span>
-            </p>
-            <div className="mt-3 space-y-1.5 text-[12.5px] text-white/70">
-              {(
-                [
-                  ["Críticas", "0", "bg-danger"],
-                  ["Medias · temp. L2", "1", "bg-warn"],
-                  ["Informativas", "2", "bg-info"],
-                ] as const
-              ).map(([label, count, color]) => (
-                <p key={label} className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-2">
-                    <i className={cn("size-1.5 rounded-full", color)} />
-                    {label}
-                  </span>
-                  <em className="not-italic">{count}</em>
-                </p>
-              ))}
-            </div>
-          </Card>
-
-          <Card title="Trazabilidad · lote activo">
-            <div className="space-y-1.5 text-[12.5px] text-white/70">
-              {(
-                [
-                  ["Orden iniciada", "06:12"],
-                  ["Producción", "07:40"],
-                  ["Calidad", "09:05"],
-                  ["Lote actualizado", "09:19"],
-                ] as const
-              ).map(([step, time], i, arr) => (
-                <p key={step} className="flex items-center gap-2">
-                  <i
-                    className={cn(
-                      "size-1.5 rounded-full",
-                      i === arr.length - 1 ? "bg-ok" : "bg-teal",
-                    )}
-                  />
-                  <b className="text-white">{step}</b>
-                  <span className="ml-auto">{time}</span>
-                </p>
-              ))}
-            </div>
-          </Card>
+          ))}
         </div>
       </div>
 
-      <p className="mt-5 flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-[12.5px]">
-        <span className="rounded bg-ok px-1.5 py-0.5 text-[10px] font-bold text-deep">
-          OK
-        </span>
+      <p className="toast2">
+        <span className="ok2">OK</span>
         <span>
-          <b>Informe de dirección</b> enviado automáticamente a las 07:00
+          <b>Informe de dirección</b>enviado automáticamente a las 07:00
         </span>
       </p>
-    </div>
-  );
-}
-
-function Window({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-lg border border-hair bg-white shadow-[0_4px_16px_rgba(25,28,30,.08)]">
-      <div className="flex items-center gap-1.5 border-b border-hair bg-alt px-3 py-2 text-[11.5px] text-stone">
-        <i className="size-2 rounded-full bg-danger" />
-        <i className="size-2 rounded-full bg-warn" />
-        <i className="size-2 rounded-full bg-ok" />
-        <span className="ml-1.5 truncate">{title}</span>
-      </div>
-      <div className="p-3">{children}</div>
-    </div>
-  );
-}
-
-function Card({
-  title,
-  children,
-  className,
-}: {
-  title: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={cn("rounded-xl border border-white/10 bg-white/[0.04] p-4", className)}>
-      <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-white/50">{title}</p>
-      {children}
     </div>
   );
 }

@@ -6,7 +6,8 @@ const PROBLEMS = [
     answer: (
       <>
         Conectamos máquinas y sensores para que producción, paradas e incidencias
-        estén disponibles <b className="text-ink">en tiempo real y desde cualquier lugar.</b>
+        estén disponibles{" "}
+        <b className="font-[680] text-ink">en tiempo real y desde cualquier lugar.</b>
       </>
     ),
     label: "Monitorización",
@@ -16,7 +17,7 @@ const PROBLEMS = [
     answer: (
       <>
         Integramos PLC, SAP, ERP, básculas y bases de datos para que trabajen{" "}
-        <b className="text-ink">sobre una misma información.</b>
+        <b className="font-[680] text-ink">sobre una misma información.</b>
       </>
     ),
     label: "Integración OT/IT",
@@ -26,7 +27,9 @@ const PROBLEMS = [
     answer: (
       <>
         Automatizamos documentos, alertas, informes y registros para que{" "}
-        <b className="text-ink">la información llegue sola a quien la necesita.</b>
+        <b className="font-[680] text-ink">
+          la información llegue sola a quien la necesita.
+        </b>
       </>
     ),
     label: "Automatización",
@@ -36,7 +39,7 @@ const PROBLEMS = [
     answer: (
       <>
         Creamos alertas con contexto cuando algo se desvía para que el equipo{" "}
-        <b className="text-ink">actúe antes de que el problema crezca.</b>
+        <b className="font-[680] text-ink">actúe antes de que el problema crezca.</b>
       </>
     ),
     label: "Alertas",
@@ -46,7 +49,7 @@ const PROBLEMS = [
     answer: (
       <>
         Relacionamos órdenes, lotes, proceso y calidad para construir{" "}
-        <b className="text-ink">una historia completa y consultable.</b>
+        <b className="font-[680] text-ink">una historia completa y consultable.</b>
       </>
     ),
     label: "Trazabilidad",
@@ -56,8 +59,8 @@ const PROBLEMS = [
     answer: (
       <>
         Cuando la solución no existe,{" "}
-        <b className="text-ink">la diseñamos y desarrollamos a medida</b> alrededor de
-        la operativa real.
+        <b className="font-[680] text-ink">la diseñamos y desarrollamos a medida</b>{" "}
+        alrededor de la operativa real.
       </>
     ),
     label: "Software a medida",
@@ -66,41 +69,55 @@ const PROBLEMS = [
 
 export function Problems() {
   return (
-    <section id="que-resolvemos" aria-labelledby="problems-title" className="py-section">
+    <section
+      id="que-resolvemos"
+      aria-labelledby="problems-title"
+      className="border-t border-hair bg-white pb-[70px] pt-[58px] max-md:overflow-hidden md:pb-[92px] md:pt-[76px]"
+    >
       <div className="wrap">
         <Reveal>
-          <p className="kicker">Qué resolvemos</p>
-          <h2 id="problems-title" className="h2-display">
-            Si has dicho alguna de estas frases,{" "}
-            <em className="not-italic text-teal">es para ti.</em>
-          </h2>
-          <p className="lead">
-            No vendemos una tecnología concreta. Entramos cuando la operación
-            necesita más visibilidad, menos trabajo manual o una solución que encaje
-            de verdad.
-          </p>
+          <div className="mx-auto max-w-[860px] text-left md:text-center">
+            <p className="kicker mb-[18px] text-teal">Qué resolvemos</p>
+            <h2
+              id="problems-title"
+              className="max-w-[11ch] text-[42px] leading-[0.98] tracking-[-0.055em] md:mx-auto md:max-w-[18ch] md:text-[clamp(38px,5.4vw,68px)]"
+            >
+              Si has dicho alguna de estas frases,{" "}
+              <em className="not-italic text-teal">es para ti.</em>
+            </h2>
+            <p className="lead max-w-[60ch] text-[15px] md:mx-auto md:mt-5 md:text-[clamp(17px,1.65vw,20px)]">
+              No vendemos una tecnología concreta. Entramos cuando la operación
+              necesita más visibilidad, menos trabajo manual o una solución que
+              encaje de verdad.
+            </p>
+          </div>
         </Reveal>
 
-        <div
-          role="list"
-          aria-label="Problemas que resuelve SOIDEM"
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {PROBLEMS.map((problem, i) => (
-            <Reveal key={problem.label} delay={i * 0.05}>
-              <article
-                role="listitem"
-                className="flex h-full flex-col gap-3 rounded-card border border-hair bg-white p-6 transition-[border-color,box-shadow] hover:border-line hover:shadow-[0_8px_28px_rgba(25,28,30,.06)]"
-              >
-                <h3 className="text-[19px]">{problem.pain}</h3>
-                <p className="text-[15.5px] text-stone">{problem.answer}</p>
-                <p className="mt-auto pt-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-teal">
+        <Reveal>
+          <div
+            role="list"
+            aria-label="Problemas que resuelve SOIDEM"
+            className="problem-grid"
+          >
+            {PROBLEMS.map((problem) => (
+              <article key={problem.label} role="listitem" className="problem-card">
+                <h3 className="max-w-[29ch] pl-[13px] text-[19px] leading-[1.24] tracking-[-0.025em]">
+                  {problem.pain}
+                </h3>
+                <p className="mt-3.5 text-[14.5px] leading-[1.52] text-stone">
+                  {problem.answer}
+                </p>
+                <p className="mt-auto pt-5 text-[10.5px] font-[760] uppercase tracking-[0.16em] text-teal-dark">
                   {problem.label}
                 </p>
               </article>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
+
+        <p className="mt-2.5 text-right text-[12px] text-stone md:hidden">
+          Desliza para ver más →
+        </p>
       </div>
     </section>
   );

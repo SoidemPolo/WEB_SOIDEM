@@ -28,17 +28,23 @@ const LOGOS = [
 
 export function ClientProof() {
   return (
-    <section aria-labelledby="client-proof-title" className="py-section">
+    <section
+      aria-labelledby="client-proof-title"
+      className="bg-ink pb-[62px] pt-[58px] text-[#F2F1EC] md:pb-[78px] md:pt-[72px]"
+    >
       <div className="wrap">
         <Reveal>
-          <div className="grid items-end gap-6 md:grid-cols-2">
+          <div className="grid items-end gap-[18px] lg:grid-cols-[1fr_0.9fr] lg:gap-12">
             <div>
-              <p className="kicker">Confían en SOIDEM</p>
-              <h2 id="client-proof-title" className="h2-display">
+              <p className="kicker text-[#8FB2BA]">Confían en SOIDEM</p>
+              <h2
+                id="client-proof-title"
+                className="max-w-[18ch] text-[clamp(28px,3.2vw,42px)] text-white"
+              >
                 Experiencia real en empresas con operaciones exigentes.
               </h2>
             </div>
-            <p className="text-[16.5px] text-stone">
+            <p className="max-w-[46ch] text-[17px] text-[#B9BEB9] lg:justify-self-end">
               Pharma, alimentación, textil, automoción, metalurgia y otros entornos
               donde conectar bien la operación importa.
             </p>
@@ -48,16 +54,19 @@ export function ClientProof() {
         <Reveal delay={0.1}>
           <div
             aria-label="Empresas que confían en SOIDEM"
-            className="mt-12 grid grid-cols-2 items-center gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6"
+            className="logo-grid mt-[34px] overflow-hidden rounded-[14px] border border-white/15 bg-white/15"
           >
             {LOGOS.map((logo, i) => (
-              <div key={`${logo.alt}-${i}`} className="flex items-center justify-center">
+              <div
+                key={`${logo.alt}-${i}`}
+                className="logo-cell grid min-h-[70px] place-items-center bg-white px-3 py-[15px] md:min-h-[74px]"
+              >
                 <Image
                   src={logo.src}
                   alt={logo.alt}
                   width={logo.w}
                   height={logo.h}
-                  className="h-auto w-auto max-h-14 object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+                  className="h-auto max-h-[30px] w-auto max-w-[84%] object-contain opacity-[0.72] grayscale transition duration-200 hover:scale-[1.03] hover:opacity-100 hover:grayscale-0"
                 />
               </div>
             ))}
