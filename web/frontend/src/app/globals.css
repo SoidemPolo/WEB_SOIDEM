@@ -489,43 +489,6 @@
     }
   }
 
-  /* Carrusel de logos: celdas blancas separadas por la rejilla oscura.
-     Pagina con scroll-snap, de modo que arrastrar con el dedo y la rueda
-     horizontal funcionan sin JavaScript; los puntos solo saltan de pagina. */
-  .logo-track {
-    display: flex;
-    gap: 1px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-inline: contain;
-  }
-  .logo-track::-webkit-scrollbar {
-    display: none;
-  }
-  .logo-track:focus-visible {
-    outline: 2.5px solid var(--color-teal);
-    outline-offset: 3px;
-  }
-  /* Nueve por pagina: con 18 logos salen dos paginas exactas */
-  .logo-cell {
-    flex: 0 0 calc((100% - 8px) / 9);
-    min-height: 74px;
-    scroll-snap-align: start;
-  }
-  @media (max-width: 1020px) {
-    .logo-cell {
-      flex-basis: calc((100% - 5px) / 6);
-    }
-  }
-  @media (max-width: 760px) {
-    .logo-cell {
-      flex-basis: calc((100% - 2px) / 3);
-      min-height: 70px;
-    }
-  }
 }
 
 /* ============================================================
@@ -818,5 +781,38 @@
     opacity: 0;
     pointer-events: none;
     transform: translateY(0.75rem);
+  }
+}
+
+@layer components {
+  /* Cinta de logos: los bordes se desvanecen para que las celdas entren y
+     salgan en lugar de aparecer cortadas en seco. */
+  /* El recorte se fija aquí y no con utilidades de Tailwind: cn() junta
+     overflow-hidden con overflow-x-auto, tailwind-merge las considera en
+     conflicto y se queda sin ninguna. */
+  .logo-slider {
+    --desvanecido: 72px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 1px;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--desvanecido),
+      #000 calc(100% - var(--desvanecido)),
+      transparent 100%
+    );
+  }
+  @media (max-width: 760px) {
+    .logo-slider {
+      --desvanecido: 28px;
+    }
+  }
+  /* Sin animación la cinta no cabe: se deja recorrer a mano. */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-slider {
+      overflow-x: auto;
+    }
   }
 }

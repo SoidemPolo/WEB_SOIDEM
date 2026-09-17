@@ -1,5 +1,9 @@
-import { LogoCarousel, type Logo } from "@/components/logo-carousel";
+import Image from "next/image";
+
+import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { Reveal } from "@/components/ui/reveal";
+
+type Logo = { alt: string; src: string; w: number; h: number };
 
 const W = "https://static.wixstatic.com/media";
 
@@ -51,8 +55,27 @@ export function ClientProof() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="mt-[34px]">
-            <LogoCarousel logos={LOGOS} label="Empresas que confían en SOIDEM" />
+          <div
+            role="group"
+            aria-label="Empresas que confían en SOIDEM"
+            className="logo-slider mt-[34px]"
+          >
+            <InfiniteSlider gap={1} duration={45} durationOnHover={160}>
+              {LOGOS.map((logo, i) => (
+                <div
+                  key={`${logo.alt}-${i}`}
+                  className="grid min-h-[74px] w-[132px] shrink-0 place-items-center bg-white px-3 py-[15px]"
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={logo.w}
+                    height={logo.h}
+                    className="h-auto max-h-[30px] w-auto max-w-[84%] object-contain opacity-[0.72] grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
+                  />
+                </div>
+              ))}
+            </InfiniteSlider>
           </div>
         </Reveal>
       </div>
