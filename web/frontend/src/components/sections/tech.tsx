@@ -77,18 +77,20 @@ function Orbita() {
       className="relative mx-auto flex size-[340px] items-center justify-center sm:size-[420px]"
     >
       {/* SOIDEM en el centro: todo lo demás gira a su alrededor, que es
-          exactamente lo que dice la sección. */}
-      <div className="relative z-10 grid size-[76px] place-items-center rounded-full border border-hair bg-white shadow-[0_8px_28px_rgba(25,28,30,.10)]">
-        {/* No se sirve como /icon.png: esa ruta la genera Next a partir de
-            src/app/icon.png para el favicon y choca con el archivo público. */}
-        <Image
-          src="/images/soidem-marca.png"
-          alt=""
-          width={512}
-          height={512}
-          className="size-10"
-        />
-      </div>
+          exactamente lo que dice la sección.
+
+          Es el icono oficial del sitio, que ya trae su propio círculo oscuro,
+          así que no lleva ningún envoltorio detrás. No se sirve como
+          /icon.png: esa ruta la genera Next desde src/app/icon.png para el
+          favicon y pisaría al archivo público. */}
+      <Image
+        src="/images/soidem-icono.png"
+        alt=""
+        width={512}
+        height={512}
+        priority
+        className="relative z-10 size-[84px] rounded-full shadow-[0_10px_30px_rgba(25,28,30,.22)]"
+      />
 
       <OrbitingCircles iconSize={44} radius={108} duration={26}>
         {ORBITA_INTERIOR.map((tech) => (
