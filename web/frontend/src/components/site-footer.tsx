@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Brand } from "@/components/brand";
 import { CookiePreferencesLink } from "@/components/cookie-preferences-link";
 
 const WEB = [
@@ -23,12 +24,7 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr_1.4fr]">
           <div>
-            <Link href="/" className="flex flex-col leading-[1.15]">
-              <b className="text-lg font-bold tracking-[-0.01em]">SOIDEM</b>
-              <span className="text-[9.5px] uppercase tracking-[0.24em] text-stone">
-                Data Technologies
-              </span>
-            </Link>
+            <Brand className="h-12" />
             <p className="mt-4 max-w-[34ch] text-[15px] text-stone">
               Tecnología diseñada alrededor de operaciones reales.
             </p>

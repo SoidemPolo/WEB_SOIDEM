@@ -57,6 +57,16 @@ export function CookieConsent() {
     return () => window.removeEventListener(ABRIR_PREFERENCIAS, abrir);
   }, []);
 
+  // Mientras el aviso ocupa el borde inferior, el botón de volver arriba se
+  // esconde: si no, el aviso lo tapa y deja de poder pulsarse.
+  useEffect(() => {
+    if (!visible) return;
+    document.body.dataset.avisoCookies = "1";
+    return () => {
+      delete document.body.dataset.avisoCookies;
+    };
+  }, [visible]);
+
   if (!visible) return null;
 
   function decidir(consent: Consent) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Analytics } from "@/components/analytics";
+import { BackToTop } from "@/components/back-to-top";
 import { CookieConsent } from "@/components/cookie-consent";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -82,6 +83,7 @@ export default function RootLayout({
         <SiteHeader />
         <main id="main-content">{children}</main>
         <SiteFooter />
+        <BackToTop />
         <CookieConsent />
         <Analytics />
       </body>

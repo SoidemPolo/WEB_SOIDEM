@@ -810,3 +810,13 @@
     }
   }
 }
+
+@layer components {
+  /* El aviso de cookies ocupa el borde inferior: mientras está abierto, el
+     botón de volver arriba se aparta para no quedar debajo e inservible. */
+  body[data-aviso-cookies] .boton-arriba {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.75rem);
+  }
+}

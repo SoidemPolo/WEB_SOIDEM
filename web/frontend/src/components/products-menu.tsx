@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * ratón y también con teclado; se cierra con Escape, al hacer clic fuera o al
  * salir el foco del menú.
  */
-export function ProductsMenu() {
+export function ProductsMenu({ activa = false }: { activa?: boolean }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<number | null>(null);
@@ -64,6 +64,7 @@ export function ProductsMenu() {
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
+        aria-current={activa ? "true" : undefined}
         onClick={() => setOpen((v) => !v)}
         onKeyDown={(event) => {
           if (event.key === "ArrowDown") {
@@ -71,7 +72,12 @@ export function ProductsMenu() {
             setOpen(true);
           }
         }}
-        className="flex items-center gap-1 text-[15px] font-medium text-[#3d4347] transition-colors hover:text-teal"
+        className={cn(
+          "relative flex items-center gap-1 text-[15px] font-medium transition-colors",
+          "after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:origin-center after:scale-x-0 after:rounded-full after:bg-teal after:transition-transform after:duration-200 after:content-['']",
+          "hover:text-teal hover:after:scale-x-100",
+          activa || open ? "text-teal after:scale-x-100" : "text-[#3d4347]",
+        )}
       >
         Productos
         <ChevronDown
