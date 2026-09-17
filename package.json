@@ -1,12 +1,15 @@
 {
   "name": "web-soidem",
   "private": true,
-  "description": "Web de SOIDEM Data Technologies. Los scripts delegan en web/frontend y web/backend para poder trabajar desde la raíz.",
+  "description": "Web de SOIDEM Data Technologies. Los scripts delegan en cada app para poder trabajar desde la raíz.",
   "scripts": {
-    "dev": "npm run dev --prefix web/frontend",
-    "build": "npm run build --prefix web/frontend",
-    "start": "npm run start --prefix web/frontend",
-    "typecheck": "npm run typecheck --prefix web/frontend",
-    "install:frontend": "npm install --prefix web/frontend"
+    "web": "npm run dev --prefix web/frontend",
+    "seo": "npm run dev --prefix seo",
+    "build:web": "npm run build --prefix web/frontend",
+    "build:seo": "npm run build --prefix seo",
+    "typecheck": "npm run typecheck --prefix web/frontend && npm run typecheck --prefix seo",
+    "install:all": "npm install --prefix web/frontend && npm install --prefix seo",
+    "dev": "npm run web",
+    "build": "npm run build:web"
   }
 }

@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Mismos tokens que la web pública, para que el panel se sienta de la casa. */
+@theme {
+  --color-paper: #faf9f6;
+  --color-alt: #f2f0ea;
+  --color-ink: #191c1e;
+  --color-stone: #6b7276;
+  --color-hair: #e5e2da;
+  --color-teal: #1e798d;
+  --color-teal-dark: #155d6e;
+  --color-deep: #0c3540;
+
+  /* Colores de estado. Reservados: no se usan nunca para identificar una
+     propiedad, solo para decir en qué estado está una comprobación. */
+  --color-bien: #15803d;
+  --color-aviso: #a16207;
+  --color-mal: #b91c1c;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    Roboto, Inter, Helvetica, sans-serif;
+  --radius-card: 14px;
+}
+
+@layer base {
+  * {
+    @apply border-hair;
+  }
+  body {
+    @apply bg-alt text-ink antialiased;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3 {
+    font-weight: 650;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2.5px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
