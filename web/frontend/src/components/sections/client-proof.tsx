@@ -71,7 +71,7 @@ export function ClientProof() {
                     alt={logo.alt}
                     width={logo.w}
                     height={logo.h}
-                    className="h-auto max-h-[30px] w-auto max-w-[84%] object-contain opacity-[0.72] grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
+                    className="h-auto max-h-[30px] w-auto max-w-[84%] object-contain transition-transform duration-200 hover:scale-[1.04]"
                   />
                 </div>
               ))}
