@@ -83,6 +83,46 @@ Detalle de variables en [web/backend/README.md](web/backend/README.md).
 
 ---
 
+## Despliegue en Vercel
+
+El repositorio está conectado a Vercel, pero **el proyecto construye desde la
+raíz**, que es donde antes estaba `index.html`. Tras mover el sitio a `legacy/`
+esa construcción falla, y seguirá fallando hasta cambiar un ajuste.
+
+### Lo que hay que hacer, una sola vez
+
+En el panel de Vercel, en el proyecto conectado a este repositorio:
+
+`Settings` → `Build and Deployment` → `Root Directory` → **`web/frontend`**
+
+Con eso Vercel construye la aplicación Next.js y deja de mirar la raíz.
+
+> No se puede resolver con un `vercel.json` en la raíz. Se intentó con
+> `buildCommand` y `outputDirectory` apuntando a `web/frontend/.next` y el
+> despliegue volvió a fallar: la [documentación de monorepos de Vercel](https://vercel.com/docs/monorepos)
+> indica que la forma de desplegar una aplicación en una subcarpeta es el ajuste
+> Root Directory, un proyecto por carpeta.
+
+### Para el panel de SEO
+
+Es una aplicación distinta, así que va en **otro proyecto de Vercel** apuntando
+al mismo repositorio, con `Root Directory` = `seo`. Una misma cuenta puede tener
+varios proyectos.
+
+| Proyecto | Root Directory | Qué publica |
+|---|---|---|
+| web | `web/frontend` | El sitio público |
+| seo | `seo` | El panel interno |
+
+El panel **no tiene autenticación**: no debe publicarse en un dominio accesible
+hasta que esté detrás del login del backend.
+
+### Sobre el dominio
+
+`www.soidemdt.com` lo sirve hoy **Wix**, no Vercel: comprobado por sus cabeceras
+de respuesta. Este proyecto de Vercel publica en su propia URL `.vercel.app`, así
+que arreglar el despliegue no cambia todavía lo que ve el público.
+
 ## Orden de trabajo
 
 1. Comprobar y reapuntar el despliegue del sitio actual a `legacy/`.
