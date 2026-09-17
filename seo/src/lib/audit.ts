@@ -16,9 +16,18 @@ import type { Property } from "./properties";
 
 export type Estado = "bien" | "aviso" | "mal";
 
+/**
+ * A quién le toca. El SEO lo comparten dos equipos y no miran lo mismo: TI
+ * arregla lo que impide que Google entre y rastree; marketing decide lo que
+ * Google enseña cuando ya ha entrado. Lo que depende de los dos va como
+ * "ambas" y aparece en las dos vistas.
+ */
+export type Area = "ti" | "mkt" | "ambas";
+
 export type Comprobacion = {
   id: string;
   etiqueta: string;
+  area: Area;
   estado: Estado;
   /** Lo que se ha encontrado, tal cual. */
   valor: string;
@@ -124,6 +133,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
   const comprobaciones: Comprobacion[] = [
     {
       id: "status",
+      area: "ti",
       etiqueta: "Respuesta HTTP",
       estado: status === 200 ? "bien" : "mal",
       valor: String(status),
@@ -131,6 +141,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "ms",
+      area: "ti",
       etiqueta: "Tiempo de respuesta",
       estado: ms === null ? "mal" : ms < 600 ? "bien" : ms < 1500 ? "aviso" : "mal",
       valor: ms === null ? "—" : `${ms} ms`,
@@ -138,6 +149,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "titulo",
+      area: "mkt",
       etiqueta: "Título",
       estado: !titulo
         ? "mal"
@@ -149,6 +161,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "descripcion",
+      area: "mkt",
       etiqueta: "Meta description",
       estado: !descripcion
         ? "mal"
@@ -160,6 +173,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "canonical",
+      area: "ti",
       etiqueta: "Canonical",
       estado: canonical ? "bien" : "aviso",
       valor: canonical ?? "No tiene",
@@ -167,6 +181,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "h1",
+      area: "mkt",
       etiqueta: "Encabezado H1",
       estado: h1 === 1 ? "bien" : h1 === 0 ? "mal" : "aviso",
       valor: h1 === 1 ? "1 (correcto)" : `${h1}`,
@@ -174,6 +189,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "og",
+      area: "mkt",
       etiqueta: "Open Graph",
       estado: ogTitle && ogImage ? "bien" : ogTitle || ogImage ? "aviso" : "mal",
       valor: ogTitle && ogImage ? "Título e imagen" : ogTitle ? "Solo título" : ogImage ? "Solo imagen" : "No tiene",
@@ -181,6 +197,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "jsonld",
+      area: "ambas",
       etiqueta: "Datos estructurados",
       estado: jsonLd > 0 ? "bien" : "aviso",
       valor: jsonLd > 0 ? `${jsonLd} bloque(s) JSON-LD` : "No tiene",
@@ -188,6 +205,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "robots",
+      area: "ti",
       etiqueta: "robots.txt",
       estado: robots.ok ? "bien" : "aviso",
       valor: robots.ok ? "Disponible" : "No se encuentra",
@@ -195,6 +213,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "sitemap",
+      area: "ti",
       etiqueta: "sitemap.xml",
       estado: sitemap.ok ? "bien" : "aviso",
       valor: sitemap.ok
@@ -204,6 +223,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "indexable",
+      area: "ti",
       etiqueta: "Indexable",
       estado: robotsMeta && /noindex/i.test(robotsMeta) ? "mal" : "bien",
       valor: robotsMeta ?? "Sin restricciones",
@@ -211,6 +231,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "lang",
+      area: "ti",
       etiqueta: "Idioma declarado",
       estado: lang ? "bien" : "aviso",
       valor: lang ?? "No declarado",
@@ -218,6 +239,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "viewport",
+      area: "ti",
       etiqueta: "Viewport móvil",
       estado: viewport ? "bien" : "mal",
       valor: viewport ? "Declarado" : "No tiene",
@@ -225,6 +247,7 @@ export async function auditar(property: Property): Promise<Auditoria> {
     },
     {
       id: "alt",
+      area: "ambas",
       etiqueta: "Imágenes con alt",
       estado: imgs === 0 ? "aviso" : imgsSinAlt === 0 ? "bien" : imgsSinAlt <= 3 ? "aviso" : "mal",
       valor: imgs === 0 ? "Sin imágenes" : `${imgs - imgsSinAlt} de ${imgs}`,
@@ -247,4 +270,9 @@ export async function auditar(property: Property): Promise<Auditoria> {
 
 export function auditarTodas(properties: Property[]) {
   return Promise.all(properties.map(auditar));
+}
+
+/** Las comprobaciones que le tocan a un área. "ambas" sale en las dos vistas. */
+export function porArea(comprobaciones: Comprobacion[], area: Exclude<Area, "ambas">) {
+  return comprobaciones.filter((c) => c.area === area || c.area === "ambas");
 }

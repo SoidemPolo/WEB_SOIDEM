@@ -17,6 +17,22 @@ npm run seo      # http://localhost:3002
 npm run web      # http://localhost:3000
 ```
 
+## Dos vistas
+
+El SEO lo comparten dos equipos y no miran lo mismo, así que cada uno tiene la
+suya. Cada comprobación está etiquetada por área; las que dependen de los dos
+salen en las dos.
+
+| Ruta | Para quién | Qué responde |
+|---|---|---|
+| `/ti` | Sistemas y desarrollo | ¿Puede Google entrar, rastrear e indexar? |
+| `/mkt` | Marketing | ¿Qué enseña Google cuando ya ha entrado? |
+
+`/ti` mira disponibilidad, tiempo de respuesta, indexabilidad, robots.txt,
+sitemap, canonical, idioma y viewport: cosas que se arreglan tocando servidor o
+código. `/mkt` mira título, descripción, H1, Open Graph y datos estructurados:
+cosas que se arreglan escribiendo. La raíz entra por `/ti`.
+
 ## Qué mide, y qué no
 
 **Lo que mide es real.** Descarga cada sitio y comprueba lo que trae. No hay ni
@@ -58,6 +74,10 @@ de clics y posición sí pedirá una.
 - **Los colores de estado están reservados.** Verde, ámbar y rojo solo dicen en
   qué estado está una comprobación; nunca identifican una propiedad. Y siempre
   van con icono y texto, nunca solo con color.
+- **El turquesa del logotipo (`#00E8D5`) solo se usa sobre fondo oscuro**, que es
+  donde contrasta: la cabecera y la vista activa. Sobre blanco no llega al
+  contraste necesario para texto, así que ahí manda el teal. El valor está
+  muestreado del PNG oficial, no aproximado.
 
 ## Pendiente
 

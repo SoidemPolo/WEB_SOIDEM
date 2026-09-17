@@ -11,6 +11,12 @@
   --color-teal-dark: #155d6e;
   --color-deep: #0c3540;
 
+  /* El turquesa del logotipo, muestreado del PNG oficial. Va sobre fondo
+     oscuro: sobre blanco no contrasta lo suficiente para texto, así que ahí
+     se usa teal. */
+  --color-logo: #00e8d5;
+  --color-logo-oscuro: #0a7a70;
+
   /* Colores de estado. Reservados: no se usan nunca para identificar una
      propiedad, solo para decir en qué estado está una comprobación. */
   --color-bien: #15803d;
